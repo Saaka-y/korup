@@ -1,7 +1,7 @@
 
-import Header from "./components/Header";
-import NextLessonCard from "./components/NextLessonCard";
-import Footer from "./components/Footer";
+import Header from "@/app/components/Header";
+import NextLessonCard from "@/app/components/NextLessonCard";
+import Footer from "@/app/components/Footer";
 
 // 共通Tailwindクラス
 const tryButton = "bg-[#F54E4E] px-8 py-1 rounded-full text-white";

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePageStore } from "../stores/pageStore";
+import { usePageStore } from "@/app/stores/pageStore";
 import { CiHome, CiClock1, CiChat1, CiCoffeeCup, CiMap } from "react-icons/ci";
 
 // navリンク共通Tailwindクラス
