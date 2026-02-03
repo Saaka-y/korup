@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const inputClass = "w-full px-4 py-2 border border-[#E4EBEC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9233] bg-white";
@@ -10,6 +11,7 @@ const buttonClass = "w-full bg-[#FF9233] text-white py-2 rounded-full mt-4 font-
 export default function LoginForm() {
     const [username, setUsername] = useState<string>(""); // メールアドレス
     const [password, setPassword] = useState<string>("");
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     // ログイン認証処理
     const handleSubmit = async (e: React.FormEvent) => {
@@ -23,18 +25,33 @@ export default function LoginForm() {
                 },
                 body: JSON.stringify({ username, password }),
             });
+
             const data = await res.json();
             console.log('Token data:', data);
+            // localStorageにトークンを保存する
+            localStorage.setItem('access_token', data.access);
+            localStorage.setItem('refresh_token', data.refresh);
+            setLoggedIn(true);
+            window.location.href = "/account";  // accountページにリダイレクト
 
         } catch (error) {
             console.error('Error fetching token:', error);
+            return;
         }
+
     }
 
 
     return (
         <form className="flex flex-col gap-6 w-full max-w-xs p-8 rounded-xl shadow-xl/20" onSubmit={handleSubmit}>
-            <h2 className="text-xl font-bold text-center mb-2">ログイン</h2>
+            <Image
+                src="/logo.png"
+                alt="Logo"
+                width={80}
+                height={80}
+                className="text-center mx-auto"
+                loading="eager"
+            />
             <div className="flex flex-col gap-2">
                 <label htmlFor="username" className="text-sm">メールアドレス</label>
                 <input
