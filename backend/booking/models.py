@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -11,5 +12,6 @@ class Booking(models.Model):
     link = models.URLField(max_length=200, blank=True, null=True)
     
     def __str__(self):
-      return f"{self.user.username} - {self.next_lesson_date}"
-    
+        local_time = timezone.localtime(self.next_lesson_date)
+        return f"{self.user.username} - {local_time.strftime('%Y-%m-%d %H:%M:%S')}"
+
