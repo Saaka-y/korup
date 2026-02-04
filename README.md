@@ -153,14 +153,16 @@ Pythonを用いたバックエンドとAI機能を中核に、英語学習体験
 
 ### 主要テーブル
 
-- users
-- profiles（学習レベル・目標）
-- lessons
-- reservations
-- study_tasks（単語／シャドーイング／英作文）
-- progress_logs（日次学習記録）
-- vocabularies（単語帳）
-- messages
+- users（生徒情報）
+- reports（全レッスンを終えて提出する生徒へのレポート、これを書くと、目標テーブルが更新される）
+- goal（レポートと紐付け）
+- curriculum（次回クールのカリキュラム、これを更新すると「残りレッスン数」が更新される）
+- lessons（レッスンの内容：カリキュラムと紐付け）
+- bookings（残りレッスン回数、レッスン日、終えた場合のチェックなどの情報を保持）
+- study_tasks（生徒固有の「5 min challenge」シャドーイング／英作文　の生徒のinputを蓄積）
+- progress_logs（日次学習記録：日々のタスク「5 min challenge」の完了有無を保持）
+- vocabularies（生徒固有の単語帳：messagesに毎回入れる単語を蓄積）
+- messages（レッスンごとの単語やメッセージを蓄積）
 
 ### リレーション（例）
 

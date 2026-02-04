@@ -32,12 +32,15 @@ export function LoginForm() {
                 loading="eager"
             />
             <div className="flex flex-col gap-2">
-                <label htmlFor="username" className="text-sm">メールアドレス</label>
+                <label htmlFor="username" className="text-sm">ユーザー名
+                    <br />
+                    <span className="text-xs text-gray-500">（下の名前をローマ字で入力）</span>
+                </label>
                 <input
                     id="username"
                     type="text"
                     className={inputClass}
-                    placeholder="XXXX@XXXX.com"
+                    placeholder="例: Taro"
                     required
                     value={username}
                     onChange={e => setUsername(e.target.value)}

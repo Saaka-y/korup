@@ -1,4 +1,4 @@
-# アカウントページシーケンス図（Mermaid）
+# アカウントページシーケンス図（抽象版）
 
 ```mermaid
 sequenceDiagram
@@ -8,4 +8,23 @@ sequenceDiagram
     F->>B: ユーザー情報APIリクエスト
     B-->>F: ユーザー情報返却
     F->>F: アカウント情報表示
+```
+
+---
+
+# アカウントページシーケンス図（詳細：クラスごと）
+
+```mermaid
+sequenceDiagram
+    participant af as authApiFunction
+    participant ap as accountPageComponent
+    participant aiv as AccountInfoView
+    participant um as userModel
+    ap->>af: getUserInfo(token)
+    af->>aiv: GET /api/account/ (Authorization: Bearer)
+    aiv->>um: ユーザー情報取得
+    um-->>aiv: ユーザーデータ返却
+    aiv-->>af: ユーザー情報返却
+    af-->>ap: ユーザー情報返却
+    ap->>ap: アカウント情報表示
 ```
