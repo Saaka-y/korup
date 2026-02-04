@@ -1,5 +1,11 @@
-英会話スクールの生徒専用学習管理アプリ
+# koru プロジェクト概要
 
+本プロジェクトはNext.js＋Django REST構成です。
+
+- 認証（login）、ユーザー管理（account）、予約管理（booking）などのアプリで構成
+- 詳細設計・セキュリティ方針は `PROJECT_DESIGN.md` を参照
+
+---
 
 ## 📋 プロジェクト概要
 
@@ -294,3 +300,31 @@ Pythonを用いたバックエンドとAI機能を中核に、英語学習体験
 ---
 
 ※ UIは「作っていて楽しい」「使っていて気持ちいい」を重要指標とし、実装フェーズでUX改善を前提に継続調整する。
+
+# koru プロジェクト設計方針
+
+## ドキュメント・設計図
+- 各アプリごとに `/docs/{app}/` フォルダを作成し、以下のMermaid形式設計図を必ず追加してください。
+    - flowchart.md: 機能全体の流れ
+    - sequence.md: 画面・API間のやりとり
+    - class.md: クラス/モデル/コンポーネント構造
+- Mermaid記法で記述し、VSCode等でプレビュー可能です。
+- 例: `/docs/login/flowchart.md`, `/docs/account/class.md` など
+
+## JWT認証・セキュリティ方針
+- 現状: JWTトークンはlocalStorageに保存しています
+- 懸念: XSS攻撃でトークンが盗まれるリスクあり
+- 推奨: httpOnly CookieでJWTを保存し、JSから直接アクセスできないようにする
+    - Django REST側でSet-Cookieヘッダーを返すAPI設計に変更可能
+    - Next.js側はCookie経由で認証状態を管理
+- 詳細は `/docs/login/flowchart.md` 参照
+
+## 各アプリの役割
+- login: 認証・JWT発行
+- account: ユーザー情報表示
+- booking: 予約管理
+- その他: 必要に応じて設計図・ドキュメントを追加
+
+---
+
+> 設計図・ドキュメントの追加・更新は必ずPRでレビューを受けてください。

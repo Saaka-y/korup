@@ -3,42 +3,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
+import { authAPI } from "@/app/services/authAPI";
 
 const inputClass = "w-full px-4 py-2 border border-[#E4EBEC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9233] bg-white";
 const buttonClass = "w-full bg-[#FF9233] text-white py-2 rounded-full mt-4 font-bold hover:bg-[#FF9233] transition";
 
 
-export default function LoginForm() {
+export function LoginForm() {
     const [username, setUsername] = useState<string>(""); // メールアドレス
     const [password, setPassword] = useState<string>("");
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     // ログイン認証処理
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        try {
-            const res = await fetch('http://localhost:8000/api/token/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const data = await res.json();
-            console.log('Token data:', data);
-            // localStorageにトークンを保存する
-            localStorage.setItem('access_token', data.access);
-            localStorage.setItem('refresh_token', data.refresh);
-            setLoggedIn(true);
-            window.location.href = "/account";  // accountページにリダイレクト
-
-        } catch (error) {
-            console.error('Error fetching token:', error);
-            return;
-        }
-
+        authAPI({ username, password, setLoggedIn });
     }
 
 
