@@ -42,3 +42,6 @@ next-env.d.ts
 
 # 設計ドキュメント
 PROJECT_DESIGN.md
+
+plan_fee.csv
+students.csv

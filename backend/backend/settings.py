@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'booking',
+    'account',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
