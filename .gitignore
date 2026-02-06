@@ -45,3 +45,20 @@ PROJECT_DESIGN.md
 
 plan_fee.csv
 students.csv
+
+# Python
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+myvenv/
+venv/
+env/
+ENV/
+
+# Django
+db.sqlite3
+*.log
+local_settings.py
