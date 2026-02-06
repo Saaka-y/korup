@@ -40,8 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# 設計ドキュメント
+# docs
 PROJECT_DESIGN.md
+DjangoFlowchart.md
 
 plan_fee.csv
 students.csv
