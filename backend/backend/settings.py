@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'booking',
     'account',
+    'trajectory',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
