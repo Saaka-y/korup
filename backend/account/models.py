@@ -19,7 +19,6 @@ class Student(models.Model):
 	lesson_goal = models.CharField(max_length=200, blank=True)
 	hobbies = models.CharField(max_length=200, blank=True)
 	referral = models.CharField(max_length=200, blank=True)  # 紹介者
-	background = models.CharField(max_length=200, blank=True)
 	notes = models.TextField(blank=True)
 
 	def __str__(self):
