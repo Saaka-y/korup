@@ -46,6 +46,7 @@ DjangoFlowchart.md
 
 plan_fee.csv
 students.csv
+transactions.csv
 
 # Python
 *.pyc
