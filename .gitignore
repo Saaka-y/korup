@@ -43,6 +43,7 @@ next-env.d.ts
 # docs
 PROJECT_DESIGN.md
 DjangoFlowchart.md
+DATABASE_DESIGN.md
 
 plan_fee.csv
 students.csv

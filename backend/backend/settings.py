@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+# カスタムUserモデルを使用
+AUTH_USER_MODEL = 'account.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
