@@ -3,12 +3,28 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Student, Tutor, User
 
 
+# インライン編集（User画面内でStudent/Tutorを編集可能に）
+class StudentInline(admin.StackedInline):
+    model = Student
+    can_delete = False
+    verbose_name = 'Student Profile'
+    extra = 1  # 新規作成用に1つ表示
+
+
+class TutorInline(admin.StackedInline):
+    model = Tutor
+    can_delete = False
+    verbose_name = 'Tutor Profile'
+    extra = 1
+
+
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'role', 'is_staff', 'is_active')
+    list_display = ('username', 'email', 'last_name', 'first_name', 'role', 'is_staff', 'is_active')
     list_filter = ('role', 'is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('username',)
+    inlines = [StudentInline, TutorInline]
     
     # roleフィールドを追加表示
     fieldsets = BaseUserAdmin.fieldsets + (
