@@ -6,6 +6,6 @@ from .models import Report
 class ReportAdmin(admin.ModelAdmin):
     list_display = ('student', 'created_at', 'is_sent', 'achievement_level')
     list_filter = ('is_sent', 'achievement_level', 'created_at')
-    search_fields = ('student__name', 'student__student_id')
+    search_fields = ('student__user__username', 'student__user__first_name', 'student__user__last_name')
     date_hierarchy = 'created_at'
     

@@ -50,7 +50,7 @@ class Report(models.Model):
         unique_together = [['student', 'report_number']]  # 同じ生徒に同じレポート番号は不可
 
     def __str__(self):
-        return f"{self.student.name} - {self.created_at}"
+        return f"{self.student.user.username} - {self.created_at}"
     
 
 # 日々の使用教材やクールごとのレポートを保存
