@@ -1,11 +1,11 @@
 
-type AuthAPIProps = {
+type LoginUserProps = {
     username: string;
     password: string;
     setLoggedIn: (loggedIn: boolean) => void;
 };
 
-export async function authAPI({ username, password, setLoggedIn }: AuthAPIProps) {
+export async function loginUser({ username, password, setLoggedIn }: LoginUserProps) {
 
     try {
         const res = await fetch('http://localhost:8000/api/token/', {
@@ -17,7 +17,6 @@ export async function authAPI({ username, password, setLoggedIn }: AuthAPIProps)
         });
 
         const data = await res.json();
-        console.log('Token data:', data);
 
         if (!res.ok || !data.access) {
             console.error('ログイン失敗');

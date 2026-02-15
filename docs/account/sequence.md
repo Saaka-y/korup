@@ -16,15 +16,15 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant af as authApiFunction
+    participant fu as fetchUserInfo
     participant ap as accountPageComponent
     participant aiv as AccountInfoView
     participant um as userModel
-    ap->>af: getUserInfo(token)
-    af->>aiv: GET /api/account/ (Authorization: Bearer)
+    ap->>fu: fetchUserInfo(token)
+    fu->>aiv: GET /api/account/ (Authorization: Bearer)
     aiv->>um: ユーザー情報取得
     um-->>aiv: ユーザーデータ返却
-    aiv-->>af: ユーザー情報返却
-    af-->>ap: ユーザー情報返却
+    aiv-->>fu: ユーザー情報返却
+    fu-->>ap: ユーザー情報返却
     ap->>ap: アカウント情報表示
 ```

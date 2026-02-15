@@ -1,7 +1,10 @@
-
+"use client";
 import Header from "@/app/components/Header";
 import NextLessonCard from "@/app/components/NextLessonCard";
 import Footer from "@/app/components/Footer";
+import { useEffect } from "react";
+import { useUserStore } from "../stores/userStore";
+import { fetchUserInfo } from "@/app/services/fetchUserInfo";
 
 // 共通Tailwindクラス
 const tryButton = "bg-[#F54E4E] px-8 py-1 rounded-full text-white";
@@ -9,8 +12,14 @@ const grayBox = "border-2 border-[#E4EBEC] rounded-md";
 
 
 export default function Account() {
+    const {  loggedIn } = useUserStore();
+
+    useEffect(() => {
+        fetchUserInfo({ loggedIn: loggedIn }); 
+    }, [loggedIn]);
 
     return (
+
         <div className="h-dvh overflow-hidden relative py-20">
             <Header />
             <main className="h-full flex flex-col justify-center items-center gap-4">

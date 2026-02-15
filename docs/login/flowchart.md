@@ -2,8 +2,8 @@
 
 ```mermaid
 flowchart TD
-    a[ユーザーがメール・パスワード入力] --> b[Next.js frontendでAPIリクエスト]
-    b --> c[authApiFunctionでlogin関数呼び出し]
+    a[ユーザーがメール・パスワード入力] --> b[フロントでログインフォーム送信]
+    b --> c[loginUser関数でAPIリクエスト]
     c --> d[tokenObtainPairViewで認証]
     d --> e[userModelで認証判定]
     e -->|成功| f[JWTトークン発行]

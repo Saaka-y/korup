@@ -7,9 +7,8 @@ classDiagram
         +password: string
         +onSubmit()
     }
-    class authApiFunction {
-        +login(email, password)
-        +getJWT()
+    class loginUser {
+        +loginUser(email, password)
     }
     class tokenObtainPairView {
         +post(request)
@@ -21,11 +20,11 @@ classDiagram
         +password: string
         +認証情報
     }
-    loginFormComponent --> authApiFunction
-    authApiFunction --> tokenObtainPairView
+    loginFormComponent --> loginUser
+    loginUser --> tokenObtainPairView
     tokenObtainPairView --> userModel
     %% loginFormComponent: React関数コンポーネント
-    %% authApiFunction: API管理用関数
+    %% loginUser: API管理用関数
     %% tokenObtainPairView: Django REST SimpleJWT
     %% userModel: Django認証ユーザーモデル
 ```
