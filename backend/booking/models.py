@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from account.models import Student
 
 
 # プラン情報
@@ -24,17 +25,30 @@ class Plan(models.Model):
         return f"{self.plan_id} - {self.name}"
 
 
-# 予約情報
-User = get_user_model()
 
-class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='bookings')
+
+
+# 予約情報
+
+# ユーザーごと・プランごとの残レッスン数を取得するメソッドをUserに追加
+from django.db.models import Q
+
+def get_remaining_lessons(self, plan):
+    total = plan.lessons or 0
+    completed = self.lesson_statuses.filter(plan=plan, is_completed=True).count()
+    return max(total - completed, 0)
+
+Student.add_to_class('get_remaining_lessons', get_remaining_lessons)
+
+class LessonStatus(models.Model):
+    user = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='lesson_statuses')
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, related_name='lesson_statuses', null=True, blank=True)
     next_lesson_date = models.DateTimeField()
+    is_conversation_class = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
-    remaining_lessons = models.IntegerField(default=0)
     link = models.URLField(max_length=200, blank=True, null=True)
-    
+
     def __str__(self):
         local_time = timezone.localtime(self.next_lesson_date)
-        return f"{self.user.username} - {local_time.strftime('%Y-%m-%d %H:%M:%S')}"
+        return f"{self.user.username} - {local_time.strftime('%Y-%m-%d %H:%M:%S')} - Completed: {self.number_of_completed} - Remaining: {self.remaining_lessons}"
 
