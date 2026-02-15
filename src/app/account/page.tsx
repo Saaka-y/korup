@@ -6,6 +6,8 @@ import { UserInfo } from "@/types/IUser";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/userStore";
 import { fetchUserInfo } from "@/app/services/fetchUserInfo";
+import { fetchLatestReport } from "@/app/services/fetchLatestReport";
+import { Report } from "@/types/IReport";
 
 // 共通Tailwindクラス
 const tryButton = "bg-[#F54E4E] px-8 py-1 rounded-full text-white";
@@ -14,6 +16,7 @@ const grayBox = "border-2 border-[#E4EBEC] rounded-md";
 
 export default function Account() {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+    const [report, setReport] = useState<Report | null>(null);
     const {  loggedIn } = useUserStore();
 
     useEffect(() => {
@@ -24,6 +27,15 @@ export default function Account() {
         getUser();
     }, [loggedIn]);
 
+    useEffect(() => {
+        const getReport = async () => {
+            if (userInfo) {
+                const data = await fetchLatestReport({ id: userInfo.student_id });
+                setReport(data);
+            }
+        };
+        getReport();
+    }, [userInfo]);
 
 
     return (
@@ -53,7 +65,7 @@ export default function Account() {
                 {/* GoalCard */}
                 <section id="goal-card" className={`card w-[90%] mb-6 gap-4 bg-[#FFFCFC] rounded-xl`}>
                     <p className="text-xs">{userInfo ? `${userInfo.username}さんの今回の目標` : "〇〇さんの今回の目標"}</p>
-                    <p className="text-[#FF9233]">文脈から予想して質問に答えられる</p>
+                    <p className="text-[#FF9233]">{report ? report.goal : "目標が設定されていません"}</p>
                     <button className={`bg-(--color-background) ${grayBox} px-6 py-1`}>前回のレポート</button>
                 </section>
             </main>
