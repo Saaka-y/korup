@@ -3,8 +3,9 @@ type FetchUserInfoProps = {
 };
 
 export async function fetchUserInfo({  loggedIn }: FetchUserInfoProps) {
-
-    console.log("accountAPI called with:", { loggedIn });
+    
+    console.log("fetchUserInfo called with:", { loggedIn });
+    let data = null;
 
     try {
         if (!loggedIn) return;
@@ -17,7 +18,7 @@ export async function fetchUserInfo({  loggedIn }: FetchUserInfoProps) {
             },
         });
 
-        const data = await res.json();
+        data = await res.json();
         console.log("User data:", data);
 
         if (!res.ok || !data) {
@@ -29,5 +30,7 @@ export async function fetchUserInfo({  loggedIn }: FetchUserInfoProps) {
         console.error("Error fetching user data:", error);
         return;
     }
+
+    return data;
 
 }

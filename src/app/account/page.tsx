@@ -2,7 +2,8 @@
 import Header from "@/app/components/Header";
 import NextLessonCard from "@/app/components/NextLessonCard";
 import Footer from "@/app/components/Footer";
-import { useEffect } from "react";
+import { UserInfo } from "@/types/IUser";
+import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/userStore";
 import { fetchUserInfo } from "@/app/services/fetchUserInfo";
 
@@ -12,11 +13,18 @@ const grayBox = "border-2 border-[#E4EBEC] rounded-md";
 
 
 export default function Account() {
+    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const {  loggedIn } = useUserStore();
 
     useEffect(() => {
-        fetchUserInfo({ loggedIn: loggedIn }); 
+        const getUser = async () => {
+            const data = await fetchUserInfo({ loggedIn: loggedIn });
+            setUserInfo(data);
+        };
+        getUser();
     }, [loggedIn]);
+
+
 
     return (
 
@@ -44,7 +52,7 @@ export default function Account() {
 
                 {/* GoalCard */}
                 <section id="goal-card" className={`card w-[90%] mb-6 gap-4 bg-[#FFFCFC] rounded-xl`}>
-                    <p className="text-xs">〇〇さんの今回の目標</p>
+                    <p className="text-xs">{userInfo ? `${userInfo.username}さんの今回の目標` : "〇〇さんの今回の目標"}</p>
                     <p className="text-[#FF9233]">文脈から予想して質問に答えられる</p>
                     <button className={`bg-(--color-background) ${grayBox} px-6 py-1`}>前回のレポート</button>
                 </section>
