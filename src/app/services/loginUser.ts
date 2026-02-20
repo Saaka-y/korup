@@ -1,11 +1,16 @@
 
+
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
 type LoginUserProps = {
     username: string;
     password: string;
     setLoggedIn: (loggedIn: boolean) => void;
+    setUsername: (username: string) => void;
+    router: AppRouterInstance;
 };
 
-export async function loginUser({ username, password, setLoggedIn }: LoginUserProps) {
+export async function loginUser({ username, password, setLoggedIn, setUsername, router }: LoginUserProps) {
 
     try {
         const res = await fetch('http://localhost:8000/api/token/', {
@@ -28,7 +33,8 @@ export async function loginUser({ username, password, setLoggedIn }: LoginUserPr
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
         setLoggedIn(true);
-        window.location.href = "/account";  // accountページにリダイレクト
+        setUsername(username);
+        router.push("/account"); // Next.jsのルーティングで遷移
 
     } catch (error) {
         console.error('Error fetching token:', error);

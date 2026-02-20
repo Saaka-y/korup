@@ -5,21 +5,21 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useUserStore } from "../stores/userStore";
 import { loginUser } from "@/app/services/loginUser";
+import { useRouter } from "next/navigation";
 
+export  function LoginForm() {
 const inputClass =
     "w-full px-4 py-2 border border-[#E4EBEC] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9233] bg-white";
 const buttonClass =
     "w-full bg-[#FF9233] text-white py-2 rounded-full mt-4 font-bold hover:bg-[#FF9233] transition";
 
-export function LoginForm() {
     const [password, setPassword] = useState<string>("");
     const { username, setUsername, setLoggedIn } = useUserStore();
+    const router = useRouter();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        loginUser({ username, password, setLoggedIn }); // accountページへ移行
-
-        setUsername(username); 
+        loginUser({ username, password, setLoggedIn, setUsername, router });
     };
 
     return (

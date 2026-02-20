@@ -16,15 +16,15 @@ const grayBox = "border-2 border-[#E4EBEC] rounded-md";
 export default function Account() {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const [report, setReport] = useState<Report | null>(null);
-    const { loggedIn } = useUserStore();
+    const { loggedIn, setId, setStudentId, setTutorId, setRole, setEmail } = useUserStore();
 
     useEffect(() => {
         const getUser = async () => {
-            const data = await fetchUserInfo({ loggedIn: loggedIn });
+            const data = await fetchUserInfo({ loggedIn: loggedIn, setId, setStudentId, setTutorId, setRole, setEmail });
             setUserInfo(data);
         };
         getUser();
-    }, [loggedIn]);
+    }, [loggedIn, setId, setStudentId, setTutorId, setRole, setEmail]); 
 
     useEffect(() => {
         const getLatestReport = async () => {

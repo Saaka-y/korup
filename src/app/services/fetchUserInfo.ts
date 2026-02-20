@@ -1,8 +1,13 @@
 type FetchUserInfoProps = {
     loggedIn: boolean;
+    setId: (id: number) => void;
+    setStudentId: (student_id: number) => void;
+    setTutorId: (tutor_id: number) => void;
+    setRole: (role: string) => void;
+    setEmail: (email: string) => void;
 };
 
-export async function fetchUserInfo({  loggedIn }: FetchUserInfoProps) {
+export async function fetchUserInfo({ loggedIn, setId, setStudentId, setTutorId, setRole, setEmail }: FetchUserInfoProps) {
     
     console.log("fetchUserInfo called with:", { loggedIn });
     let data = null;
@@ -26,6 +31,20 @@ export async function fetchUserInfo({  loggedIn }: FetchUserInfoProps) {
             alert("ユーザー情報の取得に失敗しました。");
             return;
         }
+        
+        setRole(data.role);
+        setEmail(data.email);
+        setId(data.id);
+
+        if (data.role === "student") {
+            setStudentId(data.student_id);
+        } else if (data.role === "tutor") {
+            setTutorId(data.tutor_id);
+        }
+
+        console.log("fetchUserInfo result:", { loggedIn, data });
+        
+
     } catch (error) {
         console.error("Error fetching user data:", error);
         return;
