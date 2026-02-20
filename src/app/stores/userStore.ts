@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type userStore = {
+type UserStore = {
     username: string;
     id: number;
     student_id?: number;
@@ -17,7 +17,7 @@ type userStore = {
     setLoggedIn: (loggedIn: boolean) => void;
 };
 
-export const useUserStore = create<userStore>()((set) => ({
+export const useUserStore = create<UserStore>()((set) => ({
     username: "",
     id: 0,
     student_id: undefined,

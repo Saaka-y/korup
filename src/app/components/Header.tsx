@@ -19,21 +19,25 @@ export default function Header() {
     };
 
     return (
-        <header className="absolute top-0 left-0 h-20 w-full mb-2 flex justify-between items-center px-4 z-50">
-            <button
-                onClick={() => setOpen(!open)}
-                className="p-2 rounded-full hover:bg-[#F9E4D1] transition"
-                aria-label="メニューを開く"
-            >
-                <CiMenuKebab size={24} />
-            </button>
-            <Image src="/logo.png" alt="Logo" width={80} height={80} />
-            <CiBellOn size={24} />
+        <header className="absolute top-0 left-0 h-15 md:h-30 w-full mb-2 px-4 md:px-10 z-50">
+
+            <div className="flex justify-between
+         items-center h-full">
+                <button
+                    onClick={() => setOpen(!open)}
+                    className="p-2 rounded-full hover:bg-[#F9E4D1] transition"
+                    aria-label="メニューを開く"
+                >
+                    <CiMenuKebab size={24}  />
+                </button>
+                <Image src="/logo.png" alt="Logo" width={80} height={80} />
+                <CiBellOn size={24}  />
+            </div>
 
             {/* サイドメニュー */}
 
             <div
-                className={open ? "fixed inset-0 bg-black/40 z-40" : "pointer-events-none"}
+                className={open ? "fixed inset-0 bg-black/40 z-40" : "pointer-events-none "}
                 onClick={() => setOpen(false)}
             >
                 <nav
