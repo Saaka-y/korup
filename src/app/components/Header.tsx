@@ -11,9 +11,8 @@ export default function Header() {
     const router = useRouter();
     const setIsLoggedIn = useUserStore((state) => state.setLoggedIn);
 
+    // 一旦のログアウト処理、本来はAPIにリクエストしてトークンを無効化するなどの処理が必要
     const handleLogout = () => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
         setIsLoggedIn(false);
         router.push("/login");
     };

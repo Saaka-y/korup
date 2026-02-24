@@ -12,8 +12,9 @@ type LoginUserProps = {
 export async function loginUser({ username, password, setLoggedIn, setUsername, router }: LoginUserProps) {
 
     try {
-        const res = await fetch('http://localhost:8000/api/token/', {
+        const res = await fetch('http://localhost:8000/api/custom_auth/jwt/create/', {
             method: 'POST',
+            credentials: 'include', // クッキーを送信するために必要
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -28,9 +29,6 @@ export async function loginUser({ username, password, setLoggedIn, setUsername, 
             return;
         }
 
-        // localStorageにトークンを保存する
-        localStorage.setItem('access_token', data.access);
-        localStorage.setItem('refresh_token', data.refresh);
         setLoggedIn(true);
         setUsername(username);
         router.push("/account"); // Next.jsのルーティングで遷移
