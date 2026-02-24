@@ -1,5 +1,5 @@
 
-export type Report = {
+export type IReport = {
     student: string;
     report_number: number;
     created_at: string;
@@ -17,5 +17,11 @@ export type Report = {
     recording_url: string | null;
     updated_at: string;
     is_sent: boolean;
+}
+
+export type IGoalAndActions = {
+    goal: string;
+    action_item_1: string;
+    action_item_2: string;
 }
 

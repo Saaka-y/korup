@@ -1,15 +1,14 @@
 "use client";
 import Header from "@/app/components/Header";
-import NextLessonCard from "@/app/components/NextLessonCard";
 import Footer from "@/app/components/Footer";
-import { useRouter } from "next/navigation";
-import { UserInfo } from "@/types/IUser";
+import NextLessonCard from "@/app/components/NextLessonCard";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { IUserInfo } from "@/types/IUser";
+import { IGoalAndActions } from "@/types/IReport";
 import { useUserStore } from "../stores/userStore";
-import { useLatestReportStore } from "@/app/stores/reportStore";
+import { fetchGoalAndActions } from "@/app/services/fetchGoalAndActions";
 import { fetchUserInfo } from "@/app/services/fetchUserInfo";
-import { fetchLatestReport } from "@/app/services/fetchLatestReport";
-import { Report } from "@/types/IReport";
 
 // 共通Tailwindクラス
 const tryButton = "bg-[#F54E4E] px-8 py-1 rounded-full text-white";
@@ -17,26 +16,11 @@ const grayBox = "border-2 border-[#E4EBEC] rounded-md";
 
 export default function Account() {
     const router = useRouter();
-    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-    const [report, setReport] = useState<Report | null>(null);
+    const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);
+    const [goalAndActions, setGoalAndActions] = useState<IGoalAndActions | null>(null);
+
     const { loggedIn, setId, setStudentId, setTutorId, setRole, setEmail } =
         useUserStore();
-    const {
-        setGoal,
-        setActionItem1,
-        setActionItem2,
-        setAchievementLevel,
-        setCreatedAt,
-        setUpdatedAt,
-        setMessage,
-        setTutorMessage,
-        setSpeakingField,
-        setListeningField,
-        setGrammarField,
-        setVocabularyField,
-        setPronunciationField,
-        setRecordingUrl,
-    } = useLatestReportStore();
 
     useEffect(() => {
         const getUser = async () => {
@@ -53,35 +37,21 @@ export default function Account() {
         getUser();
     }, [loggedIn, setId, setStudentId, setTutorId, setRole, setEmail]);
 
+
     useEffect(() => {
-        const getLatestReport = async () => {
-            if (userInfo) {
-                const data = await fetchLatestReport({
+        const getGoalAndActions = async () => {
+            if (userInfo && userInfo.student_id !== undefined) {
+                const data = await fetchGoalAndActions({
                     id: userInfo.student_id,
                 });
-                setReport(data);
-                if (data) {
-                    setGoal(data.goal);
-                    setActionItem1(data.action_item_1);
-                    setActionItem2(data.action_item_2);
-                    setAchievementLevel(data.achievement_level);
-                    setCreatedAt(data.created_at);
-                    setUpdatedAt(data.updated_at);
-                    setMessage(data.message);
-                    setTutorMessage(data.tutor_message);
-                    setSpeakingField(data.speaking_field);
-                    setListeningField(data.listening_field || "");
-                    setGrammarField(data.grammar_field || "");
-                    setVocabularyField(data.vocabulary_field || "");
-                    setPronunciationField(data.pronunciation_field || "");
-                    setRecordingUrl(data.recording_url || "");
-                }
+                setGoalAndActions(data);  
             }
         };
 
-        getLatestReport();
+        getGoalAndActions();
     }, [userInfo]);
 
+    
     return (
         <div className="h-dvh overflow-hidden relative py-15 md:py-30">
             <Header />
@@ -122,15 +92,15 @@ export default function Account() {
                             : "Userさんの今回の目標"}
                     </p>
                     <p className="text-white bg-[#FF9233] rounded-md px-2 py-1">
-                        {report ? report.goal : "目標が設定されていません"}
+                        {goalAndActions ? goalAndActions.goal : "目標が設定されていません"}
                     </p>
-                    {report ? (
+                    {goalAndActions ? (
                         <>
                             <p className="text-sm text-[#e0802c] ">
-                                1. {report.action_item_1}{" "}
+                                1. {goalAndActions.action_item_1}{" "}
                             </p>
                             <p className="text-sm text-[#FF9233] ">
-                                2. {report.action_item_2}{" "}
+                                2. {goalAndActions.action_item_2}{" "}
                             </p>
                         </>
                     ) : null}
