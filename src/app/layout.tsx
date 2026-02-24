@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Actor } from "next/font/google";
+import ClientLayout  from "@/app/components/ClientLayout";
 import "./globals.css";
 
 const actor = Actor({
@@ -18,9 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body className={actor.className}>
-        {children}
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );

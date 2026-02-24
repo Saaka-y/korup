@@ -14,16 +14,14 @@ export async function loginUser({ username, password, setLoggedIn, setUsername, 
     try {
         const res = await fetch('http://localhost:8000/api/custom_auth/jwt/create/', {
             method: 'POST',
-            credentials: 'include', // クッキーを送信するために必要
+            credentials: 'include', 
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ username, password }),
         });
 
-        const data = await res.json();
-
-        if (!res.ok || !data.access) {
+        if (!res.ok) {
             console.error('ログイン失敗');
             alert('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
             return;

@@ -7,14 +7,13 @@ export async function fetchGoalAndActions({ id }: FetchGoalAndActionsProps) {
     let goalAndActions = null;
 
     try {
-        const accessToken = localStorage.getItem("access_token");
         const res = await fetch(
             `http://localhost:8000/api/trajectory/latest_goal/${id}`,
             {
                 method: "GET",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
                 },
             },
         );

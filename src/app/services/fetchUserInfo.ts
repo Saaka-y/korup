@@ -14,19 +14,18 @@ export async function fetchUserInfo({ loggedIn, setId, setStudentId, setTutorId,
 
     try {
         if (!loggedIn) return;
-        const accessToken = localStorage.getItem("access_token");
         const res = await fetch("http://localhost:8000/api/user/me/", {
             method: "GET",
+            credentials: "include", 
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
             },
         });
 
         data = await res.json();
         console.log("User data:", data);
 
-        if (!res.ok || !data) {
+        if (!res.ok) {
             console.error("取得失敗");
             alert("ユーザー情報の取得に失敗しました。");
             return;
