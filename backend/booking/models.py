@@ -48,7 +48,17 @@ class LessonStatus(models.Model):
     is_completed = models.BooleanField(default=False)
     link = models.URLField(max_length=200, blank=True, null=True)
 
+    @property
+    def number_of_completed(self):
+        # 同じユーザー・プランで完了したレッスン数
+        return LessonStatus.objects.filter(user=self.user, plan=self.plan, is_completed=True).count()
+
+    @property
+    def remaining_lessons(self):
+        # Studentモデルのget_remaining_lessonsを利用
+        return self.user.get_remaining_lessons(self.plan)
+
     def __str__(self):
         local_time = timezone.localtime(self.next_lesson_date)
-        return f"{self.user.username} - {local_time.strftime('%Y-%m-%d %H:%M:%S')} - Completed: {self.number_of_completed} - Remaining: {self.remaining_lessons}"
+        return f"{self.user} - {local_time.strftime('%Y-%m-%d %H:%M:%S')} - Completed: {self.number_of_completed} - Remaining: {self.remaining_lessons}"
 
