@@ -71,7 +71,6 @@ class Tutor(models.Model):
 		('other', 'その他')
 	]
 	payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, blank=True)
-	bank = models.CharField(max_length=100, blank=True)
 	CLASS_RATE_CHOICES = [
 		(3000, '3,000'),
 		(3300, '3,300')
