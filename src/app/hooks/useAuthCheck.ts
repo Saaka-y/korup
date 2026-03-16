@@ -5,9 +5,8 @@ import { useUserStore } from "../stores/userStore";
 export function useAuthCheck() {
     const setLoggedIn = useUserStore((state) => state.setLoggedIn);
     const setUsername = useUserStore((state) => state.setUsername);
-    const setId = useUserStore((state) => state.setId);
-    const setStudentId = useUserStore((state) => state.setStudentId);
-    const setTutorId = useUserStore((state) => state.setTutorId);
+    const setStudentNumber = useUserStore((state) => state.setStudentNumber);
+    const setTutorNumber = useUserStore((state) => state.setTutorNumber);
     const setRole = useUserStore((state) => state.setRole);
     const setEmail = useUserStore((state) => state.setEmail);
 
@@ -20,13 +19,12 @@ export function useAuthCheck() {
                 const data = await res.json();
                 setLoggedIn(true);
                 setUsername(data.username);
-                setId(data.id);
                 setRole(data.role);
                 setEmail(data.email);
                 if (data.role === "student") {
-                    setStudentId(data.student_id);
+                    setStudentNumber(data.student_number);
                 } else if (data.role === "tutor") {
-                    setTutorId(data.tutor_id);
+                    setTutorNumber(data.tutor_number);
                 }
             } else {
                 setLoggedIn(false);

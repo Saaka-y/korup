@@ -13,7 +13,7 @@ class User(AbstractUser):
 
 class Student(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
-	student_id = models.IntegerField(unique=True)
+	student_number = models.IntegerField(unique=True)
 	STATUS_CHOICES = [
 		('active', '継続'),
 		('inactive', '休会'),
@@ -58,7 +58,7 @@ class Student(models.Model):
 
 class Tutor(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='tutor_profile')
-	tutor_id = models.IntegerField(unique=True)
+	tutor_number = models.IntegerField(unique=True)
 	STATUS_CHOICES = [
 		('active', '在籍'),
 		('inactive', '休職'),
@@ -68,7 +68,7 @@ class Tutor(models.Model):
 	invoice_url = models.URLField(blank=True)
 	PAYMENT_CHOICES = [
 		('bank_transfer', '振込'),
-		('Paypal', 'Paypal'),
+		('paypal', 'Paypal'),
 		('other', 'その他')
 	]
 	payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, blank=True)

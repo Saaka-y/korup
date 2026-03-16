@@ -1,8 +1,7 @@
 
 export type IUserInfo = {
-  id: number;
-  student_id?: number;
-  tutor_id?: number;
+  student_number?: number;
+  tutor_number?: number;
   username: string;
   email: string;
   first_name?: string;

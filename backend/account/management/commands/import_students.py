@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 
                 # Studentを作成または更新
                 Student.objects.update_or_create(
-                    student_id=student_id,
+                    student_number=int(student_id),
                     defaults={
                         'user': user,
                         'status': row.get('ステータス') or '',

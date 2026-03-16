@@ -1,13 +1,12 @@
 type FetchUserInfoProps = {
     loggedIn: boolean;
-    setId: (id: number) => void;
-    setStudentId: (student_id: number) => void;
-    setTutorId: (tutor_id: number) => void;
+    setStudentNumber: (student_number: number) => void;
+    setTutorNumber: (tutor_number: number) => void;
     setRole: (role: string) => void;
     setEmail: (email: string) => void;
 };
 
-export async function fetchUserInfo({ loggedIn, setId, setStudentId, setTutorId, setRole, setEmail }: FetchUserInfoProps) {
+export async function fetchUserInfo({ loggedIn, setStudentNumber, setTutorNumber, setRole, setEmail }: FetchUserInfoProps) {
     
     console.log("fetchUserInfo called with:", { loggedIn });
     let data = null;
@@ -25,6 +24,7 @@ export async function fetchUserInfo({ loggedIn, setId, setStudentId, setTutorId,
         data = await res.json();
         console.log("User data:", data);
 
+
         if (!res.ok) {
             console.error("取得失敗");
             alert("ユーザー情報の取得に失敗しました。");
@@ -33,12 +33,11 @@ export async function fetchUserInfo({ loggedIn, setId, setStudentId, setTutorId,
         
         setRole(data.role);
         setEmail(data.email);
-        setId(data.id);
 
         if (data.role === "student") {
-            setStudentId(data.student_id);
+            setStudentNumber(data.student_number);
         } else if (data.role === "tutor") {
-            setTutorId(data.tutor_id);
+            setTutorNumber(data.tutor_number);
         }
 
         console.log("fetchUserInfo result:", { loggedIn, data });

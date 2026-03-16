@@ -2,16 +2,14 @@ import { create } from "zustand";
 
 type UserStore = {
     username: string;
-    id: number;
-    student_id?: number;
-    tutor_id?: number;
+    student_number?: number;
+    tutor_number?: number;
     role: string;
     email: string;
     loggedIn: boolean;
     setUsername: (username: string) => void;
-    setId: (id: number) => void;
-    setStudentId: (student_id: number) => void;
-    setTutorId: (tutor_id: number) => void;
+    setStudentNumber: (student_number: number) => void;
+    setTutorNumber: (tutor_number: number) => void;
     setRole: (role: string) => void;
     setEmail: (email: string) => void;
     setLoggedIn: (loggedIn: boolean) => void;
@@ -19,17 +17,15 @@ type UserStore = {
 
 export const useUserStore = create<UserStore>()((set) => ({
     username: "",
-    id: 0,
-    student_id: undefined,
-    tutor_id: undefined,
+    student_number: undefined,
+    tutor_number: undefined,
     role: "",
     email: "",
     loggedIn: false,
 
     setUsername: (username: string) => set({ username }),
-    setId: (id: number) => set({ id }),
-    setStudentId: (student_id: number) => set({ student_id }),
-    setTutorId: (tutor_id: number) => set({ tutor_id }),
+    setStudentNumber: (student_number: number) => set({ student_number }),
+    setTutorNumber: (tutor_number: number) => set({ tutor_number }),
     setRole: (role: string) => set({ role }),
     setEmail: (email: string) => set({ email }),
     setLoggedIn: (loggedIn: boolean) => set({ loggedIn }),

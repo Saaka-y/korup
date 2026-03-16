@@ -1,26 +1,23 @@
-
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+
 class AccountInfoView(APIView):
-    
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        if request.user.is_authenticated:
-            user = request.user
-            user_id = user.id
-            student_id = None
-            if hasattr(user, 'student_profile'):
-                student_id = user.student_profile.id
-            tutor_id = None
-            if hasattr(user, 'tutor_profile'):
-                tutor_id = user.tutor_profile.id
-        else:
-            return Response({"error": "User not authenticated"}, status=401)
+        user = request.user
+        student_number = None
+        if hasattr(user, "student_profile"):
+            student_number = user.student_profile.student_number
+        tutor_number = None
+        if hasattr(user, "tutor_profile"):
+            tutor_number = user.tutor_profile.tutor_number
 
         user_info = {
-            "id": user_id,  
-            "student_id": student_id,
-            "tutor_id": tutor_id,
+            "student_number": student_number,
+            "tutor_number": tutor_number,
             "username": user.username,
             "email": user.email,
             "first_name": user.first_name,
@@ -29,4 +26,3 @@ class AccountInfoView(APIView):
         }
 
         return Response(user_info)
-    

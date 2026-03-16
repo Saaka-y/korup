@@ -4,43 +4,50 @@ import { IReport } from "@/types/IReport";
 import { useUserStore } from "@/app/stores/userStore";
 import { useLatestReportStore } from "@/app/stores/reportStore";
 import { fetchLatestReport } from "../services/fetchLatestReport";
+import { RxDoubleArrowDown } from "react-icons/rx";
 
 // 共通Tailwindクラス
 const sectionStyle =
-    "border-2 border-[#E4EBEC] rounded-md bg-white px-4 py-2 mb-3";
-const titleStyle = "font-semibold text-base text-[#FF9233] mb-1";
-const contentStyle = "text-sm text-gray-700 whitespace-pre-line";
-const buttonStyle =
-    "text-xs text-blue-500 underline cursor-pointer mb-2 focus:outline-none";
+    "bg-white px-5 py-4 shadow-sm border border-[#E4EBEC] transition hover:shadow-md";
+
+const titleStyle = "font-semibold text-base text-[#287878]";
+
+const contentStyle =
+    "text-sm text-gray-700 whitespace-pre-line mt-3 leading-relaxed";
 
 // タップで開閉するフィールド
 function AccordionField({ label, value }: { label: string; value: string }) {
     const [open, setOpen] = useState(false);
     if (!value) return null;
+
     return (
         <div className={sectionStyle}>
-            <div className="flex justify-between items-center">
+            <button
+                onClick={() => setOpen((v) => !v)}
+                className="w-full flex justify-between items-center"
+            >
                 <span className={titleStyle}>{label}</span>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setOpen((v) => !v)}
+                <span
+                    className={`text-[#287878] text-sm transition-transform duration-200 ${
+                        open ? "rotate-45" : ""
+                    }`}
                 >
-                    {open ? "閉じる" : "開く"}
-                </button>
-            </div>
+                    +
+                </span>
+            </button>
+
             {open && <div className={contentStyle}>{value}</div>}
         </div>
     );
 }
 
 export default function Report() {
-    const { student_id } = useUserStore();
+    const { role } = useUserStore();
     const [report, setReport] = useState<IReport | null>(null);
     const {
         setGoal,
         setActionItem1,
         setActionItem2,
-        setAchievementLevel,
         setCreatedAt,
         setUpdatedAt,
         setMessage,
@@ -55,16 +62,13 @@ export default function Report() {
 
     useEffect(() => {
         const getLatestReport = async () => {
-            if (student_id) {
-                const data = await fetchLatestReport({
-                    id: student_id,
-                });
+            if (role === "student") {
+                const data = await fetchLatestReport();
                 setReport(data);
                 if (data) {
                     setGoal(data.goal);
                     setActionItem1(data.action_item_1);
                     setActionItem2(data.action_item_2);
-                    setAchievementLevel(data.achievement_level);
                     setCreatedAt(data.created_at);
                     setUpdatedAt(data.updated_at);
                     setMessage(data.message);
@@ -80,30 +84,47 @@ export default function Report() {
         };
 
         getLatestReport();
-    }, [student_id]);
+    }, [role]);
 
     return (
-        <div className="w-full max-w-2xl mx-auto mt-4">
+        <div className="w-full max-w-2xl mx-auto bg-[#29a0a06c] py-10 px-5">
             {/* 目標 */}
-            <section className="mb-6 p-6 rounded-xl bg-[#FFF7E6] border-2 border-[#FF9233]">
-                <div className="text-lg font-bold text-[#FF9233] mb-2">
-                    今回の目標
+            <section className="relative p-6 text-center rounded-3xl bg-linear-to-br from-[#E6F7F7] to-white border border-[#BFE5E5] shadow-md mb-8">
+                <div className="text-md font-semibold text-[#FF9233] mb-2 tracking-wide">
+                    YOUR NEXT GOAL
                 </div>
-                <div className="text-2xl text-gray-900 mb-2">
+
+                <div className="text-md text-gray-800 leading-snug">
                     {report?.goal}
                 </div>
-                <div className="text-xs text-gray-500 mb-1">
-                    達成度: {achievementLabel(report?.achievement_level)}
+
+                {/* ▼ 下に溶け込む矢印 */}
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-md p-2">
+                    <RxDoubleArrowDown
+                        size={20}
+                        className="text-[#287878] opacity-70"
+                    />
                 </div>
             </section>
+
             {/* アクション */}
-            <section className="mb-6 p-4 rounded-xl bg-[#F9E4D1] border-2 border-[#E4EBEC]">
-                <div className="text-base font-semibold mb-2 text-[#F54E4E]">
-                    そのためにやること
+            <section className="p-6 text-center rounded-3xl bg-linear-to-br from-[#E6F7F7] to-white border border-[#BFE5E5] shadow-md mb-4">
+                <div className="text-md font-semibold mb-3 text-[#F54E4E] tracking-wide">
+                    ACTIONS
                 </div>
-                <ul className="list-disc ml-6">
-                    <li>{report?.action_item_1}</li>
-                    {report?.action_item_2 && <li>{report.action_item_2}</li>}
+
+                <ul className="space-y-2 text-sm text-gray-800">
+                    <li className="flex items-start gap-2">
+                        <span className="text-[#F54E4E]">•</span>
+                        {report?.action_item_1}
+                    </li>
+
+                    {report?.action_item_2 && (
+                        <li className="flex items-start gap-2">
+                            <span className="text-[#F54E4E]">•</span>
+                            {report?.action_item_2}
+                        </li>
+                    )}
                 </ul>
             </section>
 
@@ -134,18 +155,26 @@ export default function Report() {
                 label="Pronunciation"
                 value={report?.pronunciation_field ?? ""}
             />
-            {/* レコーディングURL */}
+            {/* レコーディング */}
             {report?.recording_url && (
                 <div className={sectionStyle}>
-                    <div className={titleStyle}>Recording URL</div>
+                    <div className={titleStyle}>Recording</div>
+
                     <a
                         href={report?.recording_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 underline text-sm"
+                        className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-full bg-[#287878] text-white text-sm font-medium shadow-sm hover:shadow-md hover:opacity-90 transition-all duration-200"
                     >
-                        Play Recording
+                        ▶ Check Recording
                     </a>
+
+                    <p className="text-xs text-gray-400 mt-3">
+                        Password:{" "}
+                        <span className="font-medium text-gray-600">
+                            123456
+                        </span>
+                    </p>
                 </div>
             )}
             {/* 日付・送信済み */}
@@ -154,17 +183,4 @@ export default function Report() {
             </div>
         </div>
     );
-}
-
-function achievementLabel(level: IReport["achievement_level"] | undefined) {
-    switch (level) {
-        case "not_started":
-            return "未着手";
-        case "in_progress":
-            return "途中";
-        case "achieved":
-            return "達成";
-        default:
-            return "";
-    }
 }

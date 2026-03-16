@@ -1,14 +1,11 @@
-type FetchGoalAndActionsProps = {
-    id: number;
-};
 
-export async function fetchGoalAndActions({ id }: FetchGoalAndActionsProps) {
+export async function fetchGoalAndActions() {
 
     let goalAndActions = null;
 
     try {
         const res = await fetch(
-            `http://localhost:8000/api/trajectory/latest_goal/${id}`,
+            `http://localhost:8000/api/trajectory/latest_goal`,
             {
                 method: "GET",
                 credentials: "include",
@@ -18,7 +15,6 @@ export async function fetchGoalAndActions({ id }: FetchGoalAndActionsProps) {
             },
         );
         goalAndActions = await res.json();
-        console.log("Latest goal and actions:", goalAndActions);
     } catch (error) {
         console.error("Error fetching latest goal and actions:", error);
     }

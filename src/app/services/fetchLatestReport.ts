@@ -1,14 +1,12 @@
-type FetchLatestReportProps = {
-    id: number;
-};
 
-export async function fetchLatestReport({ id }: FetchLatestReportProps) {
+
+export async function fetchLatestReport() {
 
     let report = null;
 
     try {
         const res = await fetch(
-            `http://localhost:8000/api/trajectory/latest_report/${id}`,
+            `http://localhost:8000/api/trajectory/latest_report`,
             {
                 method: "GET",
                 credentials: "include",
@@ -18,7 +16,6 @@ export async function fetchLatestReport({ id }: FetchLatestReportProps) {
             },
         );
         report = await res.json();
-        console.log("Latest report:", report);
     } catch (error) {
         console.error("Error fetching latest report:", error);
     }

@@ -37,18 +37,9 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('student_id', 'get_name', 'get_email', 'status', 'plan', 'remaining_lessons')
-
-    def remaining_lessons(self, obj):
-        if obj.status in ('graduated', 'hold'):
-            return '-'
-        if obj.plan:
-            return obj.get_remaining_lessons(obj.plan)
-        return 'N/A'
-    remaining_lessons.short_description = 'Remained'
-
+    list_display = ('student_number', 'get_name', 'get_email', 'status', 'plan')
     list_filter = ('status', 'plan')
-    search_fields = ('user__first_name', 'user__last_name', 'user__email', 'student_id')
+    search_fields = ('user__first_name', 'user__last_name', 'user__email', 'student_number')
     autocomplete_fields = ['user']
     
     @admin.display(description='Name')
@@ -62,9 +53,9 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(Tutor)
 class TutorAdmin(admin.ModelAdmin):
-    list_display = ('tutor_id', 'get_name', 'get_email', 'status')
+    list_display = ('tutor_number', 'get_name', 'get_email', 'status')
     list_filter = ('status',)
-    search_fields = ('user__first_name', 'user__last_name', 'user__email', 'tutor_id')
+    search_fields = ('user__first_name', 'user__last_name', 'user__email', 'tutor_number')
     autocomplete_fields = ['user']
     
     @admin.display(description='Name')
