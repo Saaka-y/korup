@@ -31,13 +31,8 @@ html, body {
 
 @layer components {
   .card {
-    box-shadow: 6px 6px 4px 0px rgba(0,0,0,0.18);
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 1rem;
+    @apply w-[90%] p-6 rounded-3xl shadow-md border bg-white
+           transition-all duration-300 hover:shadow-lg;
   }
 }
 

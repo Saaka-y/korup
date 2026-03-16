@@ -11,10 +11,10 @@ export default function NextLessonCard({grayBox}: {grayBox: string}) {
 
         <section id="next-lesson-card" className={`card w-full gap-2 bg-[#EBEBEB] px-8`}>
             {/* 白カード */}
-            <div className={`bg-(--color-background) flex flex-col justify-center items-center rounded-md gap-2 h-[65%] w-full`}>
+            <div className={`p-6 bg-(--color-background) flex flex-col justify-center items-center rounded-md gap-2 h-[65%] w-full`}>
                 {/* 次回レッスン日付 */}
                 <div className="flex flex-row justify-center items-center gap-4 ">
-                    <p className="text-[#6699B3] text-3xl">1 / 31 </p>
+                    <p className="text-[#6699B3] text-2xl">1 / 31 </p>
                     <p>13:00 ~ 14:00</p>
                 </div>
                 {/* google meet リンク */}

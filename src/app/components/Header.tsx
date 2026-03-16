@@ -10,7 +10,7 @@ export default function Header() {
     const logoutUser = useLogoutUser();
 
     return (
-        <header className="absolute top-0 left-0 h-15 md:h-30 w-full mb-2 px-4 md:px-10 z-50">
+        <header className="fixed top-0 left-0 h-15 md:h-30 w-full mb-2 px-4 md:px-10 bg-(--background) shadow-sm z-50">
             <div
                 className="flex justify-between
          items-center h-full"
