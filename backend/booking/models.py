@@ -9,7 +9,7 @@ from account.models import Student, Tutor
 
 # プラン情報
 class Plan(models.Model):
-    plan_id = models.CharField(max_length=10, unique=True)  # 例: P01
+    plan_number = models.CharField(max_length=10, unique=True)  # 例: P01
     name = models.CharField(max_length=100)     # 例: マイペース（8週間フレックス）
     base_fee_bank = models.IntegerField(null=True, blank=True)  # ベース料金_振込（税込）
     base_max_weeks = models.IntegerField(null=True, blank=True) # ベース最大期間_週
@@ -24,12 +24,15 @@ class Plan(models.Model):
     fee_6m_card = models.IntegerField(null=True, blank=True)    # 6ヶ月_クレカ（税込・自動）
 
     def __str__(self):
-        return f"{self.plan_id} - {self.name}"
+        return f"{self.plan_number} - {self.name}"
 
 
 class Transaction(models.Model):
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True, related_name='transactions')
     plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    plan_number_snapshot = models.CharField(max_length=10, blank=True)
+    plan_name_snapshot = models.CharField(max_length=100, blank=True)
     
     # 入金情報
     payment_date = models.DateField(null=True, blank=True)
@@ -39,9 +42,14 @@ class Transaction(models.Model):
         ('credit_card', 'クレカ'),
     ]
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD, blank=True)
+    price_snapshot = models.IntegerField(null=True, blank=True)
     
     # レッスン情報
     lesson_amount = models.IntegerField(null=True, blank=True)
+    conversation_class_amount = models.IntegerField(null=True, blank=True)
+    ten_talk_snapshot = models.CharField(max_length=50, blank=True)
+    correction_frequency_snapshot = models.CharField(max_length=50, blank=True)
+    max_weeks_snapshot = models.IntegerField(null=True, blank=True)
     period_start_date = models.DateField(null=True, blank=True)
     period_end_date = models.DateField(null=True, blank=True)
     
@@ -55,21 +63,59 @@ class Transaction(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ongoing')
     
     # その他
-    is_conversation_class_included = models.BooleanField(default=False)
+    is_conversation_class_completed = models.BooleanField(default=False)
     receipt_issued = models.BooleanField(default=False)
     notes = models.TextField(blank=True)
 
+    @classmethod
+    def create_from_plan(cls, *, student, plan, payment_method='', period_start_date=None, **extra_fields):
+        transaction = cls(
+            student=student,
+            plan=plan,
+            payment_method=payment_method,
+            period_start_date=period_start_date,
+            **extra_fields,
+        )
+        transaction.apply_plan_snapshot()
+        transaction.save()
+        return transaction
+
+    def _get_default_price_from_plan(self):
+        if not self.plan:
+            return None
+        if self.payment_method == 'credit_card':
+            return self.plan.base_fee_card
+        if self.payment_method == 'bank_transfer':
+            return self.plan.base_fee_bank
+        return self.plan.base_fee_bank or self.plan.base_fee_card
+
+    def apply_plan_snapshot(self):
+        if not self.plan:
+            return
+
+        if not self.plan_number_snapshot:
+            self.plan_number_snapshot = self.plan.plan_number
+        if not self.plan_name_snapshot:
+            self.plan_name_snapshot = self.plan.name
+        if self.price_snapshot is None:
+            self.price_snapshot = self._get_default_price_from_plan()
+        if self.lesson_amount is None:
+            self.lesson_amount = self.plan.lessons
+        if self.conversation_class_amount is None:
+            self.conversation_class_amount = self.plan.conversation_classes
+        if not self.ten_talk_snapshot:
+            self.ten_talk_snapshot = self.plan.ten_talk
+        if not self.correction_frequency_snapshot:
+            self.correction_frequency_snapshot = self.plan.correction_frequency
+        if self.max_weeks_snapshot is None:
+            self.max_weeks_snapshot = self.plan.base_max_weeks
+
     def save(self, *args, **kwargs):
-        # planが設定されている場合、プラン情報を自動セット
-        if self.plan:
-            if not self.lesson_amount:
-                self.lesson_amount = self.plan.lessons
-            
-            # period_start_dateが設定されていて、period_end_dateが未設定の場合
-            if self.period_start_date and not self.period_end_date and self.plan.base_max_weeks:
-                # base_max_weeks分の日数を加算
-                days = self.plan.base_max_weeks * 7
-                self.period_end_date = self.period_start_date + timedelta(days=days)
+        self.apply_plan_snapshot()
+
+        if self.period_start_date and not self.period_end_date and self.max_weeks_snapshot:
+            days = self.max_weeks_snapshot * 7
+            self.period_end_date = self.period_start_date + timedelta(days=days)
         
         super().save(*args, **kwargs)
 
@@ -85,7 +131,7 @@ class Transaction(models.Model):
         return max(total - self.completed_lessons, 0)
     
     def __str__(self):
-        plan_name = self.plan.name if self.plan else 'N/A'
+        plan_name = self.plan_name_snapshot or (self.plan.name if self.plan else 'N/A')
         return f"{self.student} - {plan_name} - {self.period_start_date}"
 
 

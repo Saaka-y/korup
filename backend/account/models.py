@@ -21,7 +21,6 @@ class Student(models.Model):
 		('hold', '保留')
 	]
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES)
-	plan = models.ForeignKey('booking.Plan', on_delete=models.SET_NULL, null=True, blank=True)
 	base_fee = models.IntegerField(null=True, blank=True)
 	special_fee = models.IntegerField(null=True, blank=True)
 	final_fee = models.IntegerField(null=True, blank=True)

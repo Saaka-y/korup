@@ -37,8 +37,8 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('student_number', 'get_name', 'get_email', 'status', 'plan')
-    list_filter = ('status', 'plan')
+    list_display = ('student_number', 'get_name', 'get_email', 'status')
+    list_filter = ('status',)
     search_fields = ('user__first_name', 'user__last_name', 'user__email', 'student_number')
     autocomplete_fields = ['user']
     
