@@ -59,28 +59,28 @@ export default function Header() {
                             </span>
                         </p>
                         <p className="text-lg font-semibold text-gray-800 hover:text-blue-600">
-                            <span>
+                            <a href="https://www.notion.so/KORU-f5c0e37991804b709d210b1de193b913?source=copy_link" target="_blank" rel="noopener noreferrer">
                                 KORU Materials
                                 <span className="block mt-1 text-xs text-gray-500">
                                     KORUオリジナル教材
                                 </span>
-                            </span>
+                            </a>
                         </p>
                         <p className="text-lg font-semibold text-gray-800 hover:text-blue-600">
-                            <span>
+                            <a href="https://www.notion.so/4f6983cca3b8492d8075c0875f429180?source=copy_link" target="_blank" rel="noopener noreferrer">
                                 Other Materials
                                 <span className="block mt-1 text-xs text-gray-500">
                                     外部おすすめ教材
                                 </span>
-                            </span>
+                            </a>
                         </p>
                         <p className="text-lg font-semibold text-gray-800 hover:text-blue-600">
-                            <span>
+                            <a href="https://www.notion.so/KORU-201df2bc75748088bbf3e83b04e8a9b4?source=copy_link" target="_blank" rel="noopener noreferrer">
                                 KORU Guide
                                 <span className="block mt-1 text-xs text-gray-500">
                                     KORUのいろは
                                 </span>
-                            </span>
+                            </a>
                         </p>
                         <Link
                             href="/login"
