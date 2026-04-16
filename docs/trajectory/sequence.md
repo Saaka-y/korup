@@ -6,30 +6,16 @@
 sequenceDiagram
     participant UI
     participant View
+    participant User
     participant ReportModel
     participant DB
 
-    UI->>View: 生徒IDを送信
-    View->>ReportModel: reports.filter(student=生徒).order_by('-created_at')
+    UI->>View: GET /api/trajectory/latest_report
+    View->>User: IsAuthenticated と role を確認
+    User-->>View: request.user.student_profile
+    View->>ReportModel: filter(student=student_profile).order_by('-created_at').first()
     ReportModel->>DB: クエリ実行
-    DB-->>ReportModel: レポート一覧返却
-    ReportModel->>View: 最新レポート（first()）返却
-    View->>UI: レポート内容を表示
-```
-
-## レポート新規作成シーケンス
-
-```mermaid
-sequenceDiagram
-    participant UI
-    participant View
-    participant ReportModel
-    participant DB
-
-    UI->>View: レポート入力
-    View->>ReportModel: create or update
-    ReportModel->>DB: 保存
-    DB-->>ReportModel: 保存完了
-    ReportModel->>View: 結果返却
-    View->>UI: UI更新
+    DB-->>ReportModel: 最新レポート返却
+    ReportModel-->>View: serializer.data
+    View-->>UI: レポート内容を返却
 ```

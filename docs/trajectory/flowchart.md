@@ -4,16 +4,11 @@
 
 ```mermaid
 flowchart TD
-    A[生徒IDを受け取る] --> B[Reportモデルから該当生徒のレポート一覧を取得]
-    B --> C[最新レポートを抽出（created_at降順）]
-    C --> D[レポート内容をUIに渡す]
-```
-
-## レポート新規作成・更新フロー
-
-```mermaid
-flowchart TD
-    E[レポート入力フォーム] --> F[Reportモデルに新規作成/更新]
-    F --> G[保存完了]
-    G --> H[UIに反映]
+    A[認証済みユーザーが latest_report または latest_goal を要求] --> B[IsAuthenticated を確認]
+    B --> C{role は student か}
+    C -->|Yes| D[request.user.student_profile を取得]
+    D --> E[Report を created_at 降順で検索]
+    E --> F[最新 1 件を取得]
+    F --> G[必要な項目を返却]
+    C -->|No| H[403 Unauthorized]
 ```

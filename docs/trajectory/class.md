@@ -15,10 +15,13 @@
 - is_sent: 生徒に送信済み
 
 ## 主な操作
-- 生徒ごとのレポート一覧取得
 - 最新レポート取得
-- レポート新規作成・更新
-- レポート送信
+- 最新 goal / action item 取得
+
+## 前提
+- 利用者は認証済みであること
+- role が student であること
+- 対象の Student は request.user.student_profile から特定すること
 
 ---
 

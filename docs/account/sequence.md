@@ -1,30 +1,32 @@
-# アカウントページシーケンス図（抽象版）
+# アカウントページシーケンス図
 
 ```mermaid
 sequenceDiagram
-    participant F as Frontend
-    participant B as Backend
-    F->>F: JWTトークン取得
-    F->>B: ユーザー情報APIリクエスト
-    B-->>F: ユーザー情報返却
-    F->>F: アカウント情報表示
+    participant Layout as ClientLayout
+    participant Front as useAuthCheck
+    participant View as AccountInfoView
+    participant User as request.user
+    participant Page as AccountPage
+
+    Front->>View: GET /api/user/me/ with credentials: include
+    View->>User: IsAuthenticated を確認
+    User-->>View: request.user
+    View-->>Front: first_name / role
+    Front-->>Layout: store を更新
+    Layout-->>Page: 認証済み状態で描画
+    Page->>Page: アカウント情報を表示
 ```
 
----
-
-# アカウントページシーケンス図（詳細：クラスごと）
-
 ```mermaid
 sequenceDiagram
-    participant fu as fetchUserInfo
-    participant ap as accountPageComponent
-    participant aiv as AccountInfoView
-    participant um as userModel
-    ap->>fu: fetchUserInfo(token)
-    fu->>aiv: GET /api/account/ (Authorization: Bearer)
-    aiv->>um: ユーザー情報取得
-    um-->>aiv: ユーザーデータ返却
-    aiv-->>fu: ユーザー情報返却
-    fu-->>ap: ユーザー情報返却
-    ap->>ap: アカウント情報表示
+    participant Front as useAuthCheck
+    participant Refresh as TokenRefreshView
+    participant View as AccountInfoView
+
+    Front->>View: GET /api/user/me/
+    View-->>Front: 401 Unauthorized
+    Front->>Refresh: POST /api/custom_auth/jwt/refresh/
+    Refresh-->>Front: 200 OK + 新しい access_token Cookie
+    Front->>View: GET /api/user/me/ を再試行
+    View-->>Front: first_name / role を返却
 ```

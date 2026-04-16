@@ -2,7 +2,14 @@
 
 ```mermaid
 flowchart TD
-    A[JWTトークン取得] --> B[fetchUserInfoでユーザー情報取得]
-    B --> C[アカウント情報表示]
-    B -->|失敗| D[ログインページへリダイレクト]
+    A[アプリを表示] --> B[ClientLayout で useAuthCheck を実行]
+    B --> C[GET /api/user/me/ を呼ぶ]
+    C --> D{認証成功?}
+    D -->|Yes| E[first_name と role を取得]
+    E --> F[store に反映]
+    F --> G[account ページを表示]
+    D -->|No| H[refresh を試す]
+    H --> I{refresh 成功?}
+    I -->|Yes| C
+    I -->|No| J[ログイン状態を解除]
 ```

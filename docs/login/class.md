@@ -2,29 +2,58 @@
 
 ```mermaid
 classDiagram
-    class loginFormComponent {
-        +email: string
-        +password: string
-        +onSubmit()
-    }
-    class loginUser {
-        +loginUser(email, password)
-    }
-    class tokenObtainPairView {
-        +post(request)
-        +認証処理
-        +JWT発行
-    }
-    class userModel {
+    class LoginForm {
         +username: string
         +password: string
-        +認証情報
+        +handleSubmit()
     }
-    loginFormComponent --> loginUser
-    loginUser --> tokenObtainPairView
-    tokenObtainPairView --> userModel
-    %% loginFormComponent: React関数コンポーネント
-    %% loginUser: API管理用関数
-    %% tokenObtainPairView: Django REST SimpleJWT
-    %% userModel: Django認証ユーザーモデル
+
+    class loginUser {
+        +loginUser(username, password)
+    }
+
+    class TokenObtainView {
+        +post(request)
+        +JWT発行
+        +access_token Cookie 設定
+        +refresh_token Cookie 設定
+    }
+
+    class TokenRefreshView {
+        +post(request)
+        +refresh_token Cookie 読取
+        +access_token Cookie 再設定
+    }
+
+    class LogoutView {
+        +post(request)
+        +refresh token blacklist
+        +Cookie 削除
+    }
+
+    class User {
+        +username: string
+        +password: string
+        +email: string
+        +role: string
+    }
+
+    class Student {
+        +student_number: int
+    }
+
+    class Tutor {
+        +tutor_number: int
+    }
+
+    LoginForm --> loginUser
+    loginUser --> TokenObtainView
+    TokenObtainView --> User
+    TokenRefreshView --> User
+    LogoutView --> User
+    User --> Student
+    User --> Tutor
 ```
+
+ログイン時にトークン文字列をフロントで保持することはない。
+バックエンドが HttpOnly Cookie に保存し、フロントはログイン状態とユーザー属性だけを store に持つ。
