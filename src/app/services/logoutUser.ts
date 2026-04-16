@@ -1,18 +1,19 @@
 import { useRouter } from "next/navigation";
 import { useUserStore } from "../stores/userStore";
+import { apiFetch } from "@/app/services/api-client";
 
 // Custom hook to handle logout
 export const useLogoutUser = () => {
     const router = useRouter();
-    const setLoggedIn = useUserStore((state) => state.setLoggedIn);
+    const clearUser = useUserStore((state) => state.clearUser);
 
     const logoutUser = async () => {
-        await fetch("http://localhost:8000/api/custom_auth/jwt/logout/", {
+        await apiFetch("/api/custom_auth/jwt/logout/", {
             method: "POST",
-            credentials: "include",
+            skipAuthRefresh: true,
         });
 
-        setLoggedIn(false);
+        clearUser();
         router.push("/login");
     };
 

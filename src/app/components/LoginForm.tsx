@@ -13,13 +13,14 @@ const inputClass =
 const buttonClass =
     "w-full bg-[#FF9233] text-white py-2 rounded-full mt-4 font-bold hover:bg-[#FF9233] transition";
 
+    const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const { username, setUsername, setLoggedIn } = useUserStore();
+    const { setLoggedIn } = useUserStore();
     const router = useRouter();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        loginUser({ username, password, setLoggedIn, setUsername, router });
+        loginUser({ username, password, setLoggedIn, router });
     };
 
     return (

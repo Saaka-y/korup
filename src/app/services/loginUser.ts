@@ -1,24 +1,21 @@
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { apiFetch } from "@/app/services/api-client";
 
 type LoginUserProps = {
     username: string;
     password: string;
     setLoggedIn: (loggedIn: boolean) => void;
-    setUsername: (username: string) => void;
     router: AppRouterInstance;
 };
 
-export async function loginUser({ username, password, setLoggedIn, setUsername, router }: LoginUserProps) {
+export async function loginUser({ username, password, setLoggedIn, router }: LoginUserProps) {
 
     try {
-        const res = await fetch('http://localhost:8000/api/custom_auth/jwt/create/', {
+        const res = await apiFetch('/api/custom_auth/jwt/create/', {
             method: 'POST',
-            credentials: 'include', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: JSON.stringify({ username, password }),
+            skipAuthRefresh: true,
         });
 
         if (!res.ok) {
@@ -28,7 +25,6 @@ export async function loginUser({ username, password, setLoggedIn, setUsername, 
         }
 
         setLoggedIn(true);
-        setUsername(username);
         router.push("/account"); // Next.jsのルーティングで遷移
 
     } catch (error) {

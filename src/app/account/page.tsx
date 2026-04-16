@@ -1,20 +1,12 @@
 "use client";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IUserInfo } from "@/types/IUser";
-import { IGoalAndActions } from "@/types/IReport";
-import { useUserStore } from "../stores/userStore";
-import { fetchGoalAndActions } from "@/app/services/fetchGoalAndActions";
-import { fetchUserInfo } from "@/app/services/fetchUserInfo";
 import { RxDoubleArrowDown } from "react-icons/rx";
 
 export default function Account() {
     const router = useRouter();
-    const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);
-    const [goalAndActions, setGoalAndActions] =
-        useState<IGoalAndActions | null>(null);
     const [isActionPlanOpen, setIsActionPlanOpen] = useState(false);
     const [completedTasks, setCompletedTasks] = useState<Set<string>>(
         new Set(),
@@ -33,34 +25,6 @@ export default function Account() {
             });
         }
     };
-
-    const { loggedIn, setStudentNumber, setTutorNumber, setRole, setEmail } =
-        useUserStore();
-
-    useEffect(() => {
-        const getUser = async () => {
-            const data = await fetchUserInfo({
-                loggedIn: loggedIn,
-                setStudentNumber,
-                setTutorNumber,
-                setRole,
-                setEmail,
-            });
-            setUserInfo(data);
-        };
-        getUser();
-    }, [loggedIn, setStudentNumber, setTutorNumber, setRole, setEmail]);
-
-    useEffect(() => {
-        const getGoalAndActions = async () => {
-            if (userInfo && userInfo.role === "student") {
-                const data = await fetchGoalAndActions();
-                setGoalAndActions(data);
-            }
-        };
-
-        getGoalAndActions();
-    }, [userInfo]);
 
     const mark = (
         <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">
