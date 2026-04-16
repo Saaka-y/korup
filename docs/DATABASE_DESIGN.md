@@ -316,7 +316,7 @@ erDiagram
         text grammar_field
         text vocabulary_field
         text pronunciation_field
-        text goal
+        text highlights
         string action_item_1
         string action_item_2
         string recording_url

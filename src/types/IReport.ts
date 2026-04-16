@@ -1,27 +1,17 @@
 
 export type IReport = {
-    student: string;
-    report_number: number;
+    highlights: string;
+    action_item_1: string;
+    action_item_2: string;
     created_at: string;
     message: string;
     tutor_message: string;
-    speaking_field: string;
-    listening_field: string;
-    grammar_field: string;
-    vocabulary_field: string;
-    pronunciation_field: string;
-    goal: string;
-    achievement_level: 'not_started' | 'in_progress' | 'achieved';
-    action_item_1: string;
-    action_item_2: string;
-    recording_url: string | null;
-    updated_at: string;
-    is_sent: boolean;
+    speaking_field?: string | null;
+    listening_field?: string | null;
+    grammar_field?: string | null;
+    vocabulary_field?: string | null;
+    pronunciation_field?: string | null;
+    recording_url?: string | null;
 }
 
-export type IGoalAndActions = {
-    goal: string;
-    action_item_1: string;
-    action_item_2: string;
-}
 

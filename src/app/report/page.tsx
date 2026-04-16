@@ -45,11 +45,10 @@ export default function Report() {
     const { role } = useUserStore();
     const [report, setReport] = useState<IReport | null>(null);
     const {
-        setGoal,
+        setHighlights,
         setActionItem1,
         setActionItem2,
         setCreatedAt,
-        setUpdatedAt,
         setMessage,
         setTutorMessage,
         setSpeakingField,
@@ -66,11 +65,10 @@ export default function Report() {
                 const data = await fetchLatestReport();
                 setReport(data);
                 if (data) {
-                    setGoal(data.goal);
+                    setHighlights(data.highlights);
                     setActionItem1(data.action_item_1);
                     setActionItem2(data.action_item_2);
                     setCreatedAt(data.created_at);
-                    setUpdatedAt(data.updated_at);
                     setMessage(data.message);
                     setTutorMessage(data.tutor_message);
                     setSpeakingField(data.speaking_field);
@@ -84,20 +82,32 @@ export default function Report() {
         };
 
         getLatestReport();
-    }, [role]);
+    }, [
+        role,
+        setActionItem1,
+        setActionItem2,
+        setCreatedAt,
+        setGrammarField,
+        setHighlights,
+        setListeningField,
+        setMessage,
+        setPronunciationField,
+        setRecordingUrl,
+        setSpeakingField,
+        setTutorMessage,
+        setVocabularyField,
+    ]);
 
     return (
         <div className="w-full max-w-2xl mx-auto bg-[#29a0a06c] py-10 px-5">
             {/* 目標 */}
             <section className="relative p-6 text-center rounded-3xl bg-linear-to-br from-[#E6F7F7] to-white border border-[#BFE5E5] shadow-md mb-8">
-                <div className="text-md font-semibold text-[#FF9233] mb-2 tracking-wide">
-                    YOUR NEXT GOAL
+                <div className="text-md font-semibold  text-[#FF9233] mb-3 tracking-wide">
+                    HIGHLIGHTS
                 </div>
-
-                <div className="text-md text-gray-800 leading-snug">
-                    {report?.goal}
+                <div className="text-sm text-gray-800">
+                    {report?.highlights}
                 </div>
-
                 {/* ▼ 下に溶け込む矢印 */}
                 <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-md p-2">
                     <RxDoubleArrowDown
@@ -115,13 +125,13 @@ export default function Report() {
 
                 <ul className="space-y-2 text-sm text-gray-800">
                     <li className="flex items-start gap-2">
-                        <span className="text-[#F54E4E]">•</span>
+                        <span className="text-sm text-gray-800">•</span>
                         {report?.action_item_1}
                     </li>
 
                     {report?.action_item_2 && (
                         <li className="flex items-start gap-2">
-                            <span className="text-[#F54E4E]">•</span>
+                            <span className="text-sm text-gray-800">•</span>
                             {report?.action_item_2}
                         </li>
                     )}

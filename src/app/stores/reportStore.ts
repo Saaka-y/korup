@@ -1,25 +1,23 @@
 import { create } from "zustand";
 
 type LatestReportStore = {
-    goal: string;
+    highlights: string;
     action_item_1: string;
     action_item_2: string;
     created_at: string;
-    updated_at: string;
     message: string;
     tutor_message: string;
-    speaking_field: string;
+    speaking_field?: string | null;
     listening_field?: string | null;
     grammar_field?: string | null;
     vocabulary_field?: string | null;
     pronunciation_field?: string | null;
     recording_url?: string | null;
 
-    setGoal: (goal: string) => void;
+    setHighlights: (highlights: string) => void;
     setActionItem1: (action_item_1: string) => void;
     setActionItem2: (action_item_2: string) => void;
     setCreatedAt: (created_at: string) => void;
-    setUpdatedAt: (updated_at: string) => void;
     setMessage: (message: string) => void;
     setTutorMessage: (tutor_message: string) => void;
     setSpeakingField: (speaking_field: string) => void;
@@ -31,11 +29,10 @@ type LatestReportStore = {
 };
 
 export const useLatestReportStore = create<LatestReportStore>()((set) => ({
-    goal: "",
+    highlights: "",
     action_item_1: "",
     action_item_2: "",
     created_at: "",
-    updated_at: "",
     message: "",
     tutor_message: "",
     speaking_field: "",
@@ -44,12 +41,10 @@ export const useLatestReportStore = create<LatestReportStore>()((set) => ({
     vocabulary_field: "",
     pronunciation_field: "",
     recording_url: "",
-
-    setGoal: (goal: string) => set({ goal }),
+    setHighlights: (highlights: string) => set({ highlights }),
     setActionItem1: (action_item_1: string) => set({ action_item_1 }),
     setActionItem2: (action_item_2: string) => set({ action_item_2 }),
     setCreatedAt: (created_at: string) => set({ created_at }),
-    setUpdatedAt: (updated_at: string) => set({ updated_at }),
     setMessage: (message: string) => set({ message }),
     setTutorMessage: (tutor_message: string) => set({ tutor_message }),
     setSpeakingField: (speaking_field: string) =>

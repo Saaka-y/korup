@@ -17,8 +17,8 @@ class Report(models.Model):
     vocabulary_field = models.TextField(blank=True, default='', help_text='語彙')
     pronunciation_field = models.TextField(blank=True, default='', help_text='発音')
     
-    # 目標
-    goal = models.TextField(help_text='次回の目標')
+    # ハイライト
+    highlights = models.TextField(help_text='レポートのハイライト')
     
     # 目標達成のためにやること
     action_item_1 = models.CharField(max_length=200, help_text='アクション1')
