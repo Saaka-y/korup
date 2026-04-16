@@ -16,7 +16,9 @@ export default function Account() {
     const [goalAndActions, setGoalAndActions] =
         useState<IGoalAndActions | null>(null);
     const [isActionPlanOpen, setIsActionPlanOpen] = useState(false);
-    const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
+    const [completedTasks, setCompletedTasks] = useState<Set<string>>(
+        new Set(),
+    );
 
     const handleTaskCheck = (taskId: string, checked: boolean) => {
         if (checked) {
@@ -60,19 +62,24 @@ export default function Account() {
         getGoalAndActions();
     }, [userInfo]);
 
+    const mark = (
+        <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">
+            重要
+        </span>
+    );
+
     return (
         <div className="h-dvh flex flex-col">
             <Header />
             <main className="flex-1 overflow-y-auto pt-15 md:pt-30 pb-24 bg-[#29a0a06c]">
                 <div className="w-full max-w-2xl mx-auto py-12 px-6 space-y-10">
-
                     {/* ActionPlanCard */}
                     <section className="relative p-8 rounded-2xl bg-amber-100 border border-gray-200 shadow-sm">
                         <p className="text-md text-center tracking-[0.2em] text-[#F54E4E] mb-4">
                             YOUR FINAL GOAL
                         </p>
                         <p className="text-xs text-center tracking-[0.2em]  mb-4">
-                            By March 20 in 2026
+                            By 20 Mar 2026
                         </p>
 
                         <p className="text-sm text-center bg-(--background) p-4 rounded-2xl text-gray-900 leading-relaxed mb-6  ">
@@ -90,9 +97,7 @@ export default function Account() {
                                 <span>
                                     シャドーイングで英語のテンポに頭と口を慣らす
                                 </span>
-                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">
-                                    重要
-                                </span>
+                                {mark}
                             </li>
                             <li className="flex items-start gap-2 leading-relaxed bg-white/70 rounded-lg px-3 py-2 border border-amber-200">
                                 <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
@@ -109,9 +114,7 @@ export default function Account() {
                                 <span>
                                     英語文化圏に浸かって話をした経験が10回以上ある
                                 </span>
-                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">
-                                    重要
-                                </span>
+                                {mark}
                             </li>
                         </ul>
 
@@ -149,22 +152,36 @@ export default function Account() {
                                         </p>
                                         <ul className="mt-2 space-y-2 text-xs">
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">1</span>
-                                                <span>英会話での相槌、返しをネイティブに寄せて真似をする</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    1
+                                                </span>
+                                                <span>
+                                                    英会話での相槌、返しをネイティブに寄せて真似をする
+                                                </span>
+                                                {mark}
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">2</span>
-                                                <span>ジェネラルトピックに対して、OREOのセットで考える癖をつける</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    2
+                                                </span>
+                                                <span>
+                                                    ジェネラルトピックに対して、OREOのセットで考える癖をつける
+                                                </span>
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">3</span>
-                                                <span>わからない単語を説明できるようになる</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    3
+                                                </span>
+                                                <span>
+                                                    わからない単語を説明できるようになる
+                                                </span>
+                                                {mark}
                                             </li>
                                         </ul>
                                         <p className="mt-3 text-xs">
-                                            自己学習: シャドーイング、音読、単語帳（Ultimate Expressions含む）
+                                            自己学習:
+                                            シャドーイング、音読、単語帳（Ultimate
+                                            Expressions含む）
                                         </p>
                                         <p className="mt-2 text-xs text-gray-600">
                                             会話のキャッチボールは「感情」を乗せることが鍵。台本を読んでいるようにならないことを意識する。
@@ -183,22 +200,36 @@ export default function Account() {
                                         </p>
                                         <ul className="mt-2 space-y-2 text-xs">
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">1</span>
-                                                <span>助動詞の使い方を学び、応用できるようにする</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    1
+                                                </span>
+                                                <span>
+                                                    助動詞の使い方を学び、応用できるようにする
+                                                </span>
+                                                {mark}
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">2</span>
-                                                <span>様々な副詞を覚えて、積極的に使っていく</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    2
+                                                </span>
+                                                <span>
+                                                    様々な副詞を覚えて、積極的に使っていく
+                                                </span>
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">3</span>
-                                                <span>相手に合わせて質問やお願いの仕方を自分で選べるようにする</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    3
+                                                </span>
+                                                <span>
+                                                    相手に合わせて質問やお願いの仕方を自分で選べるようにする
+                                                </span>
+                                                {mark}
                                             </li>
                                         </ul>
                                         <p className="mt-3 text-xs">
-                                            自己学習: シャドーイング、音読、単語帳（Ultimate Expressions含む）
+                                            自己学習:
+                                            シャドーイング、音読、単語帳（Ultimate
+                                            Expressions含む）
                                         </p>
                                         <p className="mt-2 text-xs text-gray-600">
                                             細かいニュアンスはリアルな英語に触れることが大切。常に英語環境へ自分をexposeする。
@@ -217,22 +248,36 @@ export default function Account() {
                                         </p>
                                         <ul className="mt-2 space-y-2 text-xs">
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">1</span>
-                                                <span>接続詞をマスターする</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    1
+                                                </span>
+                                                <span>
+                                                    接続詞をマスターする
+                                                </span>
+                                                {mark}
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">2</span>
-                                                <span>人以外が主語になる時の文の作り方を判断できるようにする</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    2
+                                                </span>
+                                                <span>
+                                                    人以外が主語になる時の文の作り方を判断できるようにする
+                                                </span>
+                                                {mark}
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">3</span>
-                                                <span>関係代名詞を使って後ろから名詞を修飾できるようにする</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    3
+                                                </span>
+                                                <span>
+                                                    関係代名詞を使って後ろから名詞を修飾できるようにする
+                                                </span>
                                             </li>
                                         </ul>
                                         <p className="mt-3 text-xs">
-                                            自己学習: シャドーイング、音読、ボキャブラリー（Ultimate Expressions）
+                                            自己学習:
+                                            シャドーイング、音読、ボキャブラリー（Ultimate
+                                            Expressions）
                                         </p>
                                         <p className="mt-2 text-xs text-gray-600">
                                             流れるような英語はシャドーイングが鍵。毎日やる時間を決めて継続する。
@@ -251,22 +296,35 @@ export default function Account() {
                                         </p>
                                         <ul className="mt-2 space-y-2 text-xs">
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">1</span>
-                                                <span>初歩文法を見直す（可算名詞・品詞・時制を含む）</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    1
+                                                </span>
+                                                <span>
+                                                    初歩文法を見直す（可算名詞・品詞・時制を含む）
+                                                </span>
+                                                {mark}
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">2</span>
-                                                <span>基本語彙を底上げする（目安3000語）</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    2
+                                                </span>
+                                                <span>
+                                                    基本語彙を底上げする（目安3000語）
+                                                </span>
                                             </li>
                                             <li className="flex items-start gap-2 leading-relaxed">
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">3</span>
-                                                <span>英語イントネーションを自然に真似できるようにする</span>
-                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">重要</span>
+                                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 font-semibold">
+                                                    3
+                                                </span>
+                                                <span>
+                                                    英語イントネーションを自然に真似できるようにする
+                                                </span>
+                                                {mark}
                                             </li>
                                         </ul>
                                         <p className="mt-3 text-xs">
-                                            自己学習: シャドーイング、音読、ボキャブラリー（キー動詞、主語の種類理解）
+                                            自己学習:
+                                            シャドーイング、音読、ボキャブラリー（キー動詞、主語の種類理解）
                                         </p>
                                         <p className="mt-2 text-xs text-gray-600">
                                             最初は習慣化が難しい。ここで踏ん張って後の自分を楽にする。
@@ -275,6 +333,59 @@ export default function Account() {
                                 </div>
                             </div>
                         </div>
+                        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-md p-2">
+                            <RxDoubleArrowDown
+                                size={20}
+                                className="text-[#287878] opacity-70 animate-bounce"
+                            />
+                        </div>
+                    </section>
+
+                    {/* GoalCard */}
+                    <section className="relative p-8 rounded-2xl bg-white border border-gray-200 shadow-sm">
+                        <p className="text-md text-center tracking-[0.2em] text-[#F54E4E] mb-4">
+                            YOUR NEXT GOAL
+                        </p>
+                        <p className="text-xs text-center tracking-[0.2em]  mb-4">
+                            By 20 Apr 2026
+                        </p>
+
+                        <p className="text-sm tracking-[0.2em] text-center p-4  text-gray-900 leading-relaxed mb-4 bg-[#F7FBFB] rounded-lg px-3 py-4 ">
+                            辞書を使わず、基本的な日本語の文章を英語のイントネーションで1文にできる
+                        </p>
+
+                        <p className="mt-4 pt-3 border-t border-[#DDF3F3] text-xs text-center tracking-[0.2em] text-[#FF9233] mb-4">
+                            ACTIONS
+                        </p>
+
+                        <ul className="space-y-2 text-xs tracking-[0.2em] text-gray-700 mb-6 text-left">
+                            <li className="flex items-start gap-2 leading-relaxed bg-[#F7FBFB] rounded-lg px-3 py-2 border border-[#D7ECEC]">
+                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-[#DDF3F3] text-[#287878] font-semibold text-xs">
+                                    1
+                                </span>
+                                <span>
+                                    初歩文法を見直す（可算名詞・品詞・時制を含む）
+                                </span>
+                                {mark}
+                            </li>
+
+                            <li className="flex items-start gap-2 leading-relaxed bg-[#F7FBFB] rounded-lg px-3 py-2 border border-[#D7ECEC]">
+                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-[#DDF3F3] text-[#287878] font-semibold text-xs">
+                                    2
+                                </span>
+                                <span>基本語彙を底上げする（目安3000語）</span>
+                            </li>
+                            <li className="flex items-start gap-2 leading-relaxed bg-[#F7FBFB] rounded-lg px-3 py-2 border border-[#D7ECEC]">
+                                <span className="mt-0.5 px-1.5 py-0.5 rounded bg-[#DDF3F3] text-[#287878] font-semibold text-xs">
+                                    3
+                                </span>
+                                <span>
+                                    英語イントネーションを自然に真似できるようにする
+                                </span>
+                                {mark}
+                            </li>
+                        </ul>
+
                         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-md p-2">
                             <RxDoubleArrowDown
                                 size={20}
@@ -338,64 +449,14 @@ export default function Account() {
                                     回
                                 </span>
                             </p>
-                            <div className="mt-3 text-left rounded-xl bg-[#F0F9F9] border-l-2 border-[#287878] px-3 py-2.5">
-                                <p className="text-xs text-gray-400 mb-1">Conversation Classで達成したい目標</p>
-                                <p className="text-xs text-gray-700 line-clamp-2 leading-relaxed">
-                                    {goalAndActions?.goal ?? "目標を設定中..."}
-                                </p>
+                            <div className="flex justify-center">
+                                <button
+                                    onClick={() => router.push("/report")}
+                                    className="px-6 py-2 mt-4 rounded-full bg-[#287878] text-white text-sm hover:opacity-90 transition"
+                                >
+                                    前回のレポートを見る
+                                </button>
                             </div>
-                        </div>
-                         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-md p-2">
-                            <RxDoubleArrowDown
-                                size={20}
-                                className="text-[#287878] opacity-70 animate-bounce"
-                            />
-                        </div>
-                    </section>
-
-                    {/* GoalCard */}
-                    <section className="relative p-8 rounded-2xl bg-white border border-gray-200 shadow-sm">
-                        <p className="text-xs text-center tracking-[0.2em] text-[#FF9233] mb-4">
-                            YOUR NEXT GOAL
-                        </p>
-
-                        <p className="text-sm text-center text-gray-900 leading-relaxed mb-6">
-                            {goalAndActions
-                                ? goalAndActions.goal
-                                : "目標が設定されていません"}
-                        </p>
-
-                        {goalAndActions && (
-                            <>
-                                <p className="text-xs text-center tracking-[0.2em] text-[#F54E4E] mb-4">
-                                    ACTIONS
-                                </p>
-                                <ul className="space-y-2 text-sm text-gray-700 mb-6 text-left">
-                                    <li className="flex items-start gap-2 leading-relaxed bg-[#F7FBFB] rounded-lg px-3 py-2 border border-[#D7ECEC]">
-                                        <span className="mt-0.5 px-1.5 py-0.5 rounded bg-[#DDF3F3] text-[#287878] font-semibold text-xs">
-                                            1
-                                        </span>
-                                        <span>{goalAndActions.action_item_1}</span>
-                                    </li>
-                                    {goalAndActions.action_item_2 && (
-                                        <li className="flex items-start gap-2 leading-relaxed bg-[#F7FBFB] rounded-lg px-3 py-2 border border-[#D7ECEC]">
-                                            <span className="mt-0.5 px-1.5 py-0.5 rounded bg-[#DDF3F3] text-[#287878] font-semibold text-xs">
-                                                2
-                                            </span>
-                                            <span>{goalAndActions.action_item_2}</span>
-                                        </li>
-                                    )}
-                                </ul>
-                            </>
-                        )}
-
-                        <div className="flex justify-center">
-                            <button
-                                onClick={() => router.push("/report")}
-                                className="px-6 py-2 rounded-full bg-[#287878] text-white text-sm hover:opacity-90 transition"
-                            >
-                                前回のレポートを見る
-                            </button>
                         </div>
                         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-md p-2">
                             <RxDoubleArrowDown
@@ -411,27 +472,31 @@ export default function Account() {
                             DAILY TASK
                         </p>
 
-                        <div className="mb-6">
-                            <p className="text-sm font-semibold text-gray-900">
-                                You have tasks for today!
-                            </p>
-                            <p className="text-sm text-gray-500 mt-2">
-                                Jan 27, Tue
-                            </p>
-                        </div>
-
                         <div className="space-y-4">
-                            {([
-                                { id: "shadowing", label: "シャドーイング" },
-                                { id: "ondoku", label: "音読" },
-                                { id: "vocabulary", label: "ボキャブラリー" },
-                                { id: "eikaiwa", label: "瞬間英作文" },
-                                { id: "ai", label: "AI英会話" },
-                            ] as const).map(({ id, label }) => {
+                            {(
+                                [
+                                    {
+                                        id: "shadowing",
+                                        label: "シャドーイング",
+                                    },
+                                    { id: "ondoku", label: "音読" },
+                                    {
+                                        id: "vocabulary",
+                                        label: "ボキャブラリー",
+                                    },
+                                    { id: "eikaiwa", label: "瞬間英作文" },
+                                    { id: "ai", label: "AI英会話" },
+                                ] as const
+                            ).map(({ id, label }) => {
                                 const done = completedTasks.has(id);
                                 return (
-                                    <div key={id} className="flex justify-between items-center">
-                                        <span className={`text-sm transition ${done ? "text-gray-400 line-through" : "text-gray-700"}`}>
+                                    <div
+                                        key={id}
+                                        className="flex justify-between items-center"
+                                    >
+                                        <span
+                                            className={`text-sm transition ${done ? "text-gray-400 line-through" : "text-gray-700"}`}
+                                        >
                                             {label}
                                         </span>
                                         <div className="flex items-center gap-3">
@@ -440,15 +505,20 @@ export default function Account() {
                                                 className={`px-4 py-1.5 rounded-full border text-xs transition ${
                                                     done
                                                         ? "bg-gray-200 text-gray-400 border-gray-200 cursor-not-allowed"
-                                                        : "bg-[#287878] text-white hover:bg-[#287878]/90"
+                                                        : "bg-[#FF9233] text-white hover:bg-[#FF9233]/90"
                                                 }`}
                                             >
                                                 Try
                                             </button>
                                             <input
                                                 type="checkbox"
-                                                className="w-5 h-5 rounded accent-[#287878] cursor-pointer"
-                                                onChange={(e) => handleTaskCheck(id, e.target.checked)}
+                                                className="w-5 h-5 rounded accent-[#FF9233] cursor-pointer"
+                                                onChange={(e) =>
+                                                    handleTaskCheck(
+                                                        id,
+                                                        e.target.checked,
+                                                    )
+                                                }
                                             />
                                         </div>
                                     </div>

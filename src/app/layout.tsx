@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Actor } from "next/font/google";
 import ClientLayout  from "@/app/components/ClientLayout";
-import "./globals.css";
+import "@/app/global.css";
 
 const actor = Actor({
   subsets: ["latin"],
