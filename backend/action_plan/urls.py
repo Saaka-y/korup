@@ -1,5 +1,6 @@
 from django.urls import path
+from .views import ActionPlanView
 
 urlpatterns = [
-    # TODO: アクションプランのviewsができたら、ここにURLパターンを追加していく
+    path("", ActionPlanView.as_view(), name="action_plan"),
 ]

@@ -40,7 +40,7 @@
 ### ActionPlanアプリ
 - 未実装（予定）
 	- `POST /api/action_plan/submit` - アクションプラン提出
-	- `GET /api/action_plan/action_plans` - アクションプラン全体取得
+	- `GET /api/action_plan/action_plan` - アクションプラン全体取得
 	- `GET /api/action_plan/current_term_action_plan` - 現在の期間のアクションプラン取得
 
 ### DailyTaskアプリ

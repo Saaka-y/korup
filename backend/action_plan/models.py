@@ -45,7 +45,7 @@ class Milestone(models.Model):
     label = models.CharField(max_length=50, help_text="「1ヶ月後」など")
     due_date = models.DateField(help_text="目標期限")
     goal_description = models.TextField(help_text="目標の内容")
-    self_study_note = models.TextField(blank=True, default="自己学習: シャドーイング、音読、ボキャブラリー（キー動詞、Ultimate Expressions）", help_text="自己学習の内容要約")
+    self_study_note = models.TextField(blank=True, default="シャドーイング、音読、ボキャブラリー（キー動詞、Ultimate Expressions）", help_text="自己学習の内容要約")
     ADVICE_CHOICES = [
         ("no_script", "会話のキャッチボールは「感情」を乗せることが鍵。台本を読んでるみたいにならないように！"),
         ("expose_yourself", "細かいニュアンスはリアルな英語に触れることが大切。常に自分を英語の世界にexposeしていきましょう！"),
