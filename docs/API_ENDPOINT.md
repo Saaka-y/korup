@@ -38,9 +38,10 @@
 	- `GET /api/trajectory/daily_task_qa` - 自己学習の質問と回答取得
 
 ### ActionPlanアプリ
+- 実装済み
+	- `GET /api/action_plan/action_plan` - アクションプラン全体取得
 - 未実装（予定）
 	- `POST /api/action_plan/submit` - アクションプラン提出
-	- `GET /api/action_plan/action_plan` - アクションプラン全体取得
 	- `GET /api/action_plan/current_term_action_plan` - 現在の期間のアクションプラン取得
 
 ### DailyTaskアプリ
