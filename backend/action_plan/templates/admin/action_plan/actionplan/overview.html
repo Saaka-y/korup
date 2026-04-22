@@ -1,0 +1,246 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+  .plan-overview {
+    display: grid;
+    gap: 18px;
+  }
+
+  .plan-link-row {
+    margin-bottom: 4px;
+  }
+
+  .plan-link-row a {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #1f5f8b;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .plan-card {
+    border: 1px solid #d7e3ea;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    color: #1f2933;
+    box-shadow: 0 3px 12px rgba(14, 37, 52, 0.06);
+  }
+
+  .plan-card h2 {
+    margin: 0;
+    padding: 14px 18px;
+    background: linear-gradient(90deg, #edf6fb 0%, #f8fbfd 100%);
+    border-bottom: 1px solid #d7e3ea;
+    color: #14384c;
+    font-size: 17px;
+  }
+
+  .plan-card-body {
+    padding: 18px;
+    color: #1f2933;
+  }
+
+  .plan-summary-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .plan-summary-item {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #f7fafc;
+    border-left: 4px solid #4f8fb8;
+    color: #1f2933;
+  }
+
+  .plan-summary-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #48606f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .action-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  .action-item {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #f7fafc;
+    border: 1px solid #dbe7ee;
+    color: #1f2933;
+  }
+
+  .action-important {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fff1c2;
+    color: #7a5200;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .empty-note {
+    margin: 0;
+    padding: 14px;
+    border-radius: 10px;
+    background: #f8f8f8;
+    color: #52606d;
+  }
+
+  .milestone-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .milestone-card {
+    padding: 16px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    border: 1px solid #d7e3ea;
+    color: #1f2933;
+  }
+
+  .milestone-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .milestone-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #17364a;
+  }
+
+  .milestone-due {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e7f3ea;
+    color: #1f5d35;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .milestone-goal {
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-left: 4px solid #7aa6c2;
+    background: #f5f9fc;
+    color: #29485b;
+  }
+
+  .plan-card strong,
+  .milestone-card strong,
+  .action-item strong,
+  .plan-card a {
+    color: inherit;
+  }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">ホーム</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+&rsaquo; <a href="{% url 'admin:action_plan_actionplan_changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+&rsaquo; {{ title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main" class="plan-overview">
+  <p class="plan-link-row">
+    <a href="{{ change_url }}">このActionPlanを編集する</a>
+  </p>
+
+  <fieldset class="module aligned plan-card">
+    <h2>基本情報</h2>
+    <div class="plan-card-body">
+      <div class="plan-summary-grid">
+        <div class="plan-summary-item">
+          <span class="plan-summary-label">生徒</span>
+          {{ action_plan.student }}
+        </div>
+        <div class="plan-summary-item">
+          <span class="plan-summary-label">最終目標</span>
+          {{ action_plan.final_goal }}
+        </div>
+        <div class="plan-summary-item">
+          <span class="plan-summary-label">期限</span>
+          {{ action_plan.final_goal_due }}
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="module aligned plan-card">
+    <h2>最終目標に紐づくActions</h2>
+    <div class="plan-card-body">
+      {% if final_actions %}
+        <ul class="action-list">
+        {% for action in final_actions %}
+          <li class="action-item">
+            {{ action.content }}
+            {% if action.is_important %}<span class="action-important">重要</span>{% endif %}
+          </li>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty-note">該当するActionはありません。</p>
+      {% endif %}
+    </div>
+  </fieldset>
+
+  <fieldset class="module aligned plan-card">
+    <h2>Milestoneと紐づくActions</h2>
+    <div class="plan-card-body">
+      {% if milestones %}
+        <div class="milestone-list">
+        {% for milestone in milestones %}
+          <div class="milestone-card">
+            <div class="milestone-header">
+              <div class="milestone-title">{{ milestone.label }}</div>
+              <div class="milestone-due">期限: {{ milestone.due_date }}</div>
+            </div>
+            <p class="milestone-goal">{{ milestone.goal_description }}</p>
+            {% if milestone.actions.all %}
+              <ul class="action-list">
+              {% for action in milestone.actions.all %}
+                <li class="action-item">
+                  {{ action.content }}
+                  {% if action.is_important %}<span class="action-important">重要</span>{% endif %}
+                </li>
+              {% endfor %}
+              </ul>
+            {% else %}
+              <p class="empty-note">Actionはありません。</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-note">Milestoneはありません。</p>
+      {% endif %}
+    </div>
+  </fieldset>
+</div>
+{% endblock %}

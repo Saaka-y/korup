@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "booking",
     "account",
     "trajectory",
+    "action_plan",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",

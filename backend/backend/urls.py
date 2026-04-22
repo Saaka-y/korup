@@ -26,4 +26,5 @@ urlpatterns = [
     path('api/custom_auth/jwt/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/user/', include('account.urls')),
     path('api/trajectory/', include('trajectory.urls')),
+    path('api/action_plan/', include('action_plan.urls')),
 ]
