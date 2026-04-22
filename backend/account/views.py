@@ -10,7 +10,7 @@ class AccountInfoView(APIView):
         user = request.user
 
         user_info = {
-            "first_name": user.first_name,
+            "username": user.username,
             "role": user.role,
         }
 

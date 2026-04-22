@@ -22,7 +22,7 @@
 	- `GET /api/user/me/`
 		- ログイン中ユーザーの情報を取得
 		- IsAuthenticated が必要
-		- 現在は first_name / role のみを返す
+		- 現在は username / role のみを返す
 
 ### Trajectoryアプリ
 - 実装済み

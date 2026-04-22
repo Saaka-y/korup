@@ -31,29 +31,20 @@ classDiagram
         +Cookie 削除
     }
 
-    class User {
+    class UserModel {
         +username: string
         +password: string
         +email: string
         +role: string
     }
 
-    class Student {
-        +student_number: int
-    }
-
-    class Tutor {
-        +tutor_number: int
-    }
-
     LoginForm --> loginUser
     loginUser --> TokenObtainView
-    TokenObtainView --> User
-    TokenRefreshView --> User
-    LogoutView --> User
-    User --> Student
-    User --> Tutor
+    TokenObtainView --> UserModel
+    TokenRefreshView --> UserModel
+    LogoutView --> UserModel
 ```
 
 ログイン時にトークン文字列をフロントで保持することはない。
-バックエンドが HttpOnly Cookie に保存し、フロントはログイン状態とユーザー属性だけを store に持つ。
+バックエンドが HttpOnly Cookie に保存し、フロントはログイン状態とユーザー属性（username / role）だけを store に持つ。
+student_number / tutor_number はフロントに渡さない。バックエンドは Cookie から request.user を特定し、request.user.student_profile / request.user.tutor_profile でアクセスする。

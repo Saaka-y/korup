@@ -5,7 +5,7 @@ import { useUserStore } from "../stores/userStore";
 
 export function useAuthCheck() {
     const setLoggedIn = useUserStore((state) => state.setLoggedIn);
-    const setFirstName = useUserStore((state) => state.setFirstName);
+    const setUsername = useUserStore((state) => state.setUsername);
     const setRole = useUserStore((state) => state.setRole);
     const clearUser = useUserStore((state) => state.clearUser);
 
@@ -16,7 +16,7 @@ export function useAuthCheck() {
                 if (res.ok) {
                     const data = await res.json();
                     setLoggedIn(true);
-                    setFirstName(data.first_name);
+                    setUsername(data.username);
                     setRole(data.role);
                 } else {
                     clearUser();
@@ -27,5 +27,5 @@ export function useAuthCheck() {
             }
         };
         checkAuth();
-    }, [clearUser, setFirstName, setLoggedIn, setRole]);
+    }, [clearUser, setUsername, setLoggedIn, setRole]);
 }

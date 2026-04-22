@@ -1,22 +1,22 @@
 import { create } from "zustand";
 
 type UserStore = {
-    first_name: string;
+    username: string;
     role: string;
     loggedIn: boolean;
-    setFirstName: (first_name: string) => void;
+    setUsername: (username: string) => void;
     setRole: (role: string) => void;
     setLoggedIn: (loggedIn: boolean) => void;
     clearUser: () => void;
 };
 
 export const useUserStore = create<UserStore>()((set) => ({
-    first_name: "",
+    username: "",
     role: "",
     loggedIn: false,
 
-    setFirstName: (first_name: string) => set({ first_name }),
+    setUsername: (username: string) => set({ username }),
     setRole: (role: string) => set({ role }),
     setLoggedIn: (loggedIn: boolean) => set({ loggedIn }),
-    clearUser: () => set({ first_name: "", role: "", loggedIn: false }),
+    clearUser: () => set({ username: "", role: "", loggedIn: false }),
 }));

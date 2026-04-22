@@ -5,7 +5,7 @@ flowchart TD
     A[アプリを表示] --> B[ClientLayout で useAuthCheck を実行]
     B --> C[GET /api/user/me/ を呼ぶ]
     C --> D{認証成功?}
-    D -->|Yes| E[first_name と role を取得]
+    D -->|Yes| E[username と role を取得]
     E --> F[store に反映]
     F --> G[account ページを表示]
     D -->|No| H[refresh を試す]

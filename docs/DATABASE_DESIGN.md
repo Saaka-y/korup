@@ -2,6 +2,50 @@
 
 ## 🗄️ データベース設計（概要）
 
+### DB確認方法（SQLite / Django）
+
+DBファイルは backend/db.sqlite3（開発段階）
+
+1. SQLiteで直接確認
+
+```bash
+cd /Users/saaka/Projects/korup/backend
+sqlite3 db.sqlite3
+```
+
+2. 接続先とテーブル一覧
+
+```sql
+.databases
+.tables
+```
+
+3. メタ情報（定義・列・外部キー・インデックス）
+
+```sql
+.schema account_student
+PRAGMA table_info('account_student');
+PRAGMA foreign_key_list('trajectory_report');
+PRAGMA index_list('account_student');
+```
+
+4. 実データ確認（idとFKの対応）
+
+```sql
+SELECT id, user_id, student_number, status FROM account_student ORDER BY id DESC LIMIT 20;
+
+SELECT id, student_id, created_at, is_sent FROM trajectory_report ORDER BY id DESC LIMIT 20;
+
+```
+
+5. 終了
+
+```sql
+.quit
+```
+
+補足: ForeignKeyやOneToOneFieldは、DB上では field_name_id という列名で保存される（例: student_id, user_id）。
+
 ### 主要テーブル
 
 #### Accountアプリ（ユーザー管理）
@@ -9,7 +53,7 @@
 - Student（Userと1対1で紐付け）
 - Tutor（Userと1対1で紐付け）
 
-**設計方針**: name/emailはUserモデルに集約し、Student/Tutorは業務データのみを保持。フロントではstudent_number / tutor_numberでアクセス可能。バックエンドではrequest.user.student_profile / request.user.tutor_profileでアクセス。
+**設計方針**: name/emailはUserモデルに集約し、Student/Tutorは業務データのみを保持。バックエンドはCookieのJWTからrequest.userを特定し、request.user.student_profile / request.user.tutor_profileでアクセスする。student_number / tutor_numberはフロントに渡さない（フロントがURLクエリで番号を持つとCookieによる認証の意味が薄れるため）。
 
 
 #### Bookingアプリ（予約管理）
@@ -110,7 +154,7 @@ erDiagram
     Student {
         int id PK
         int user_id FK "OneToOne"
-        int student_number UK "for frontend"
+        int student_number UK "業務管理用・バックエンド内部のみ"
         string status "active/inactive/graduated/hold"
         int base_fee
         int special_fee
@@ -127,11 +171,10 @@ erDiagram
     Tutor {
         int id PK
         int user_id FK "OneToOne"
-        int tutor_number UK "for frontend"
+        int tutor_number UK "業務管理用・バックエンド内部のみ"
         int class_rate
         string invoice_url
         string payment_method "bank_transfer/paypal/other"
-        string bank
         string status "active/inactive/resigned"
     }
 ```
@@ -318,8 +361,8 @@ erDiagram
         text pronunciation_field
         text highlights
         string action_item_1
-        string action_item_2
-        string recording_url
+        string action_item_2 "optional (blank allowed)"
+        string recording_url "optional (null/blank allowed)"
         datetime updated_at
         boolean is_sent
     }

@@ -12,7 +12,7 @@ sequenceDiagram
     Front->>Front: loggedIn=true を store に保存
     Front->>Front: /account に遷移
     Front->>Account: GET /api/user/me/ with credentials: include
-    Account-->>Front: user.first_name / role
+    Account-->>Front: username / role
     Front->>Front: ユーザー情報を store に保存
     Front->>User: アカウント画面を表示
 ```

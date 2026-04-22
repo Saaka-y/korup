@@ -7,7 +7,7 @@ classDiagram
     }
 
     class User {
-        +first_name: string
+        +username: string
         +role: string
     }
 

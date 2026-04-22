@@ -26,6 +26,7 @@ export async function loginUser({ username, password, setLoggedIn, router }: Log
 
         setLoggedIn(true);
         router.push("/account"); // Next.jsのルーティングで遷移
+        console.log("フロントに返すデータ", { username, role: "user" });
 
     } catch (error) {
         console.error('Error fetching token:', error);
